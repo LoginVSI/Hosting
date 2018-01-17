@@ -27,7 +27,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.8'
+      Version__Number: '99.1.9'
     image: loginvsi/accounts:dev
     networks:
     - databases
