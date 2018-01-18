@@ -24,7 +24,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.8'
+      Version__Number: '0.2.9'
     image: loginvsi/accounts:0.1.0
     networks:
     - front
@@ -246,7 +246,7 @@ services:
     environment:
       Hosting__HostUrls: https://localhost.loginvsi.com:3000;https://localhost.loginvsi.com:4200
       Hosting__VirtualDirectory: identityServer
-    image: loginvsi/identityserver:0.1.0
+    image: loginvsi/identityserver:0.1.1
     networks:
     - front
     restart: always
