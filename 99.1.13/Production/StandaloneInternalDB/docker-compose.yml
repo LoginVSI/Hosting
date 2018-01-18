@@ -11,7 +11,7 @@ secrets:
   VSI_SSL_CERTIFICATE_KEY:
     file: ${SSL_CERTIFICATE_KEY_PATH}
   VSI_SSL_CERTIFICATE_KEY_PASSWORD:
-    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+    external: true
 services:
   accounts:
     depends_on:
@@ -42,8 +42,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/accountsDb:/var/lib/postgresql/data
   accountsworker:
     depends_on:
     - sessionrequestmanagement
@@ -71,8 +69,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitorSourcesDb:/var/lib/postgresql/data
   appMonitoringScheduleDb:
     deploy:
       restart_policy:
@@ -81,8 +77,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitoringScheduleDb:/var/lib/postgresql/data
   appMonitorsDb:
     deploy:
       restart_policy:
@@ -91,8 +85,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitorsDb:/var/lib/postgresql/data
   appmonitoringschedule:
     depends_on:
     - appMonitoringScheduleDb
@@ -191,8 +183,6 @@ services:
     image: loginvsi/enginehub:dev
     networks:
     - front
-    ports:
-    - 4000:80
     restart: always
   enginehubworker:
     depends_on:
@@ -221,8 +211,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/environmentConfigurationDb:/var/lib/postgresql/data
   environmentconfiguration:
     depends_on:
     - environmentConfigurationDb
@@ -341,8 +329,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/infrastructuresDb:/var/lib/postgresql/data
   launcherhub:
     depends_on:
     - identityserver
@@ -357,8 +343,6 @@ services:
     networks:
     - front
     - messaging
-    ports:
-    - 4001:80
     restart: always
   launcherhubworker:
     depends_on:
@@ -430,8 +414,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/launchersDb:/var/lib/postgresql/data
   loginScheduleDb:
     deploy:
       restart_policy:
@@ -440,8 +422,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/loginScheduleDb:/var/lib/postgresql/data
   loginmonitorscheduler:
     depends_on:
     - sessionrequestmanagement
@@ -506,8 +486,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/logintimeactionsDb:/var/lib/postgresql/data
   logintimeevents:
     depends_on:
     - logintimeeventsDb
@@ -535,8 +513,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/logintimeeventsDb:/var/lib/postgresql/data
   measurementactions:
     depends_on:
     - measurementactionsDb
@@ -564,8 +540,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/measurementactionsDb:/var/lib/postgresql/data
   measurementactionsworker:
     depends_on:
     - sessionmanagement
@@ -614,8 +588,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/measurementeventsDb:/var/lib/postgresql/data
   messagebroker:
     deploy:
       restart_policy:
@@ -624,9 +596,6 @@ services:
     image: rabbitmq:3.6.12-management
     networks:
     - messaging
-    ports:
-    - 5672:5672
-    - 15672:15672
     restart: always
   notificationshub:
     depends_on:
@@ -658,17 +627,6 @@ services:
     - front
     - messaging
     restart: always
-  portainer:
-    command: -d /data -H unix:///var/run/docker.sock --admin-password '$$2y$$05$$DTUYaqFuY0ot0BuUqKE4d.KyQmBzZiUe64rl6QLTYhS/9Nl000vK.'
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: portainer/portainer
-    ports:
-    - 9000:9000
-    restart: always
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
   publishingworker:
     depends_on:
     - appmonitors
@@ -722,8 +680,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionDiscoveryDb:/var/lib/postgresql/data
   sessionLoginResultsDb:
     deploy:
       restart_policy:
@@ -732,8 +688,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLoginResultsDb:/var/lib/postgresql/data
   sessionLogonScriptsDb:
     deploy:
       restart_policy:
@@ -742,8 +696,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLogonScriptsDb:/var/lib/postgresql/data
   sessionManagementDb:
     deploy:
       restart_policy:
@@ -752,8 +704,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionManagementDb:/var/lib/postgresql/data
   sessionRegulationDb:
     deploy:
       restart_policy:
@@ -762,8 +712,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionRegulationDb:/var/lib/postgresql/data
   sessionRequestManagementDb:
     deploy:
       restart_policy:
@@ -772,8 +720,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionRequestManagementDb:/var/lib/postgresql/data
   sessioncalculator:
     depends_on:
     - infrastructures
@@ -991,8 +937,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/virtualUserResultsDb:/var/lib/postgresql/data
   virtualuserresults:
     depends_on:
     - virtualUserResultsDb
