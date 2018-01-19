@@ -4,6 +4,10 @@
   messaging:
     driver: bridge
 secrets:
+  ADMIN_PASSWORD:
+    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+  USER_PASSWORD:
+    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
   VSI_SSL_CERTIFICATE:
     file: ${SSL_CERTIFICATE_PATH}
   VSI_SSL_CERTIFICATE_KEY:
@@ -24,7 +28,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.17'
+      Version__Number: '99.1.18'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -246,10 +250,15 @@ services:
     environment:
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       Hosting__VirtualDirectory: identityServer
+      PasswordLocations__Admin: /run/secrets/ADMIN_PASSWORD
+      PasswordLocations__User: /run/secrets/USER_PASSWORD
     image: loginvsi/identityserver:dev
     networks:
     - front
     restart: always
+    secrets:
+    - ADMIN_PASSWORD
+    - USER_PASSWORD
   infrastructures:
     depends_on:
     - identityserver
