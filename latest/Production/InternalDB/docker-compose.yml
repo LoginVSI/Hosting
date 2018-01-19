@@ -27,7 +27,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.14'
+      Version__Number: '0.2.15'
     image: loginvsi/accounts:0.1.0
     networks:
     - databases
@@ -280,7 +280,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/gateway_product:0.1.0
+    image: loginvsi/gateway_product:0.1.1
     networks:
     - front
     - messaging
