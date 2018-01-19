@@ -27,7 +27,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.13'
+      Version__Number: '0.2.14'
     image: loginvsi/accounts:0.1.0
     networks:
     - databases
@@ -298,7 +298,7 @@ services:
     environment:
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       Hosting__VirtualDirectory: identityServer
-    image: loginvsi/identityserver:0.1.1
+    image: loginvsi/identityserver:0.1.2
     networks:
     - front
     restart: always
