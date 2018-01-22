@@ -31,7 +31,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.18'
+      Version__Number: '99.1.19'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -270,8 +270,6 @@ services:
     environment:
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       Hosting__VirtualDirectory: identityServer
-      PasswordLocations__Admin: /run/secrets/ADMIN_PASSWORD
-      PasswordLocations__User: /run/secrets/USER_PASSWORD
     image: loginvsi/identityserver:dev
     networks:
     - front
