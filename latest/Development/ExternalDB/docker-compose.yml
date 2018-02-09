@@ -28,7 +28,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.20'
+      Version__Number: '99.1.21'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -507,7 +507,7 @@ services:
     environment:
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Services__HubUrl: ws://notificationshub/notificationsHub/websockets
+      Services__HubUrl: ws://notificationshub/notificationsHub
     image: loginvsi/notificationsworker:dev
     networks:
     - front
