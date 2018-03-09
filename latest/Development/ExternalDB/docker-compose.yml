@@ -28,7 +28,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.21'
+      Version__Number: '0.2.22'
     image: loginvsi/accounts:0.2.0
     networks:
     - front
@@ -735,7 +735,7 @@ services:
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRegulationUrl: http://sessionregulation/sessionregulation
       Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionrequestmanagement
-    image: loginvsi/sessionregulator:0.2.0
+    image: loginvsi/sessionregulator:0.1.4
     networks:
     - front
     - messaging
