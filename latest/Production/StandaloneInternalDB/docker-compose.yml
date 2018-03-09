@@ -31,7 +31,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.20'
+      Version__Number: '0.2.21'
     image: loginvsi/accounts:0.2.0
     networks:
     - databases
@@ -480,7 +480,7 @@ services:
       Hosting__VirtualDirectory: loginTimeActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/logintimeactions:0.2.0
+    image: loginvsi/logintimeactions:0.1.0
     networks:
     - databases
     - front
@@ -507,7 +507,7 @@ services:
       Hosting__VirtualDirectory: loginTimeEvents
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/logintimeevents:0.2.0
+    image: loginvsi/logintimeevents:0.1.1
     networks:
     - databases
     - front
