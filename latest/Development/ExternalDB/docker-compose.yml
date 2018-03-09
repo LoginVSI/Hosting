@@ -28,8 +28,8 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.19'
-    image: loginvsi/accounts:0.1.0
+      Version__Number: '0.2.20'
+    image: loginvsi/accounts:0.2.0
     networks:
     - front
     - messaging
@@ -48,7 +48,7 @@ services:
       MessageBroker__Hostname: messagebroker
       Services__AccountsUrl: http://accounts
       Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionrequestmanagement
-    image: loginvsi/accountsworker:0.1.0
+    image: loginvsi/accountsworker:0.2.0
     networks:
     - front
     - messaging
@@ -66,7 +66,7 @@ services:
       Hosting__VirtualDirectory: appMonitoringSchedule
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/appmonitoringschedule:0.1.0
+    image: loginvsi/appmonitoringschedule:0.2.0
     networks:
     - front
     - messaging
@@ -84,7 +84,7 @@ services:
       Hosting__VirtualDirectory: appMonitors
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/appmonitors:0.1.0
+    image: loginvsi/appmonitors:0.2.0
     networks:
     - front
     - messaging
@@ -103,7 +103,7 @@ services:
       Polling__Interval: 10
       Services__AppMonitoringScheduleUrl: http://appmonitoringschedule/appmonitoringschedule
       Services__SessionManagementUrl: http://sessionmanagement/sessionManagement
-    image: loginvsi/appmonitorscheduler:0.1.1
+    image: loginvsi/appmonitorscheduler:0.2.0
     networks:
     - front
     restart: always
@@ -120,7 +120,7 @@ services:
       Hosting__VirtualDirectory: appMonitorSources
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/appmonitorsources:0.1.0
+    image: loginvsi/appmonitorsources:0.2.0
     networks:
     - front
     - messaging
@@ -189,7 +189,7 @@ services:
     environment:
       Hosting__VirtualDirectory: eventHub
       IdentityProvider__Authority: http://identityserver/identityServer
-    image: loginvsi/enginehub:0.1.1
+    image: loginvsi/eventhub:0.1.1
     networks:
     - front
     restart: always
@@ -270,7 +270,7 @@ services:
       Hosting__VirtualDirectory: infrastructures
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/infrastructures:0.1.2
+    image: loginvsi/infrastructures:0.2.0
     networks:
     - front
     - messaging
@@ -327,7 +327,7 @@ services:
       MessageBroker__Hostname: messagebroker
       Services__LaunchersUrl: http://launchers/launchers
       Services__SessionRequestManagementUrl: http://sessionRequestManagement/sessionRequestManagement
-    image: loginvsi/launcherregistryworker:0.1.0
+    image: loginvsi/launcherregistryworker:0.2.0
     networks:
     - front
     - messaging
@@ -345,7 +345,7 @@ services:
       Hosting__VirtualDirectory: launchers
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/launchers:0.1.1
+    image: loginvsi/launchers:0.2.0
     networks:
     - front
     - messaging
@@ -363,7 +363,7 @@ services:
       Polling__Interval: 10
       Services__LoginScheduleUrl: http://loginschedule/loginschedule
       Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionRequestManagement
-    image: loginvsi/loginmonitorscheduler:0.1.0
+    image: loginvsi/loginmonitorscheduler:0.2.0
     networks:
     - front
     restart: always
@@ -380,7 +380,7 @@ services:
       Hosting__VirtualDirectory: loginSchedule
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/loginschedule:0.1.0
+    image: loginvsi/loginschedule:0.2.0
     networks:
     - front
     - messaging
@@ -397,7 +397,7 @@ services:
       Hosting__VirtualDirectory: loginTimeActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/logintimeactions:0.1.0
+    image: loginvsi/logintimeactions:0.2.0
     networks:
     - front
     - messaging
@@ -414,7 +414,7 @@ services:
       Hosting__VirtualDirectory: loginTimeEvents
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/logintimeevents:0.1.1
+    image: loginvsi/logintimeevents:0.2.0
     networks:
     - front
     - messaging
@@ -431,7 +431,7 @@ services:
       Hosting__VirtualDirectory: measurementActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/measurementactions:0.1.0
+    image: loginvsi/measurementactions:0.2.0
     networks:
     - front
     - messaging
@@ -469,7 +469,7 @@ services:
       Hosting__VirtualDirectory: measurementEvents
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/measurementevents:0.1.1
+    image: loginvsi/measurementevents:0.2.0
     networks:
     - front
     - messaging
@@ -492,7 +492,7 @@ services:
     environment:
       Hosting__VirtualDirectory: notificationsHub
       IdentityProvider__Authority: http://identityserver/identityServer
-    image: loginvsi/notificationshub:0.1.1
+    image: loginvsi/notificationshub:0.3.0
     networks:
     - front
     restart: always
@@ -508,7 +508,7 @@ services:
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
       Services__HubUrl: ws://notificationshub/notificationsHub/websockets
-    image: loginvsi/notificationsworker:0.1.1
+    image: loginvsi/notificationsworker:0.2.0
     networks:
     - front
     - messaging
@@ -586,7 +586,7 @@ services:
       MessageBroker__Hostname: messagebroker
       Services__AppMonitoringScheduleUrl: http://appmonitoringschedule/appmonitoringschedule
       Services__SessionRegulationUrl: http://sessionregulation/sessionregulation
-    image: loginvsi/sessioncalculator:0.1.0
+    image: loginvsi/sessioncalculator:0.2.0
     networks:
     - front
     - messaging
@@ -602,7 +602,7 @@ services:
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: sessionDiscovery
       IdentityProvider__Authority: http://identityserver/identityServer
-    image: loginvsi/sessiondiscovery:0.1.1
+    image: loginvsi/sessiondiscovery:0.2.0
     networks:
     - front
     restart: always
@@ -622,7 +622,7 @@ services:
       Services__SessionDiscoveryUrl: http://sessiondiscovery/sessiondiscovery
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionrequestmanagement
-    image: loginvsi/sessiondiscoveryworker:0.1.1
+    image: loginvsi/sessiondiscoveryworker:0.2.0
     networks:
     - front
     - messaging
@@ -640,7 +640,7 @@ services:
       Hosting__VirtualDirectory: sessionLoginResults
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionloginresults:0.1.1
+    image: loginvsi/sessionloginresults:0.2.0
     networks:
     - front
     - messaging
@@ -673,7 +673,7 @@ services:
       Hosting__VirtualDirectory: sessionManagement
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionmanagement:0.1.2
+    image: loginvsi/sessionmanagement:0.2.0
     networks:
     - front
     - messaging
@@ -692,7 +692,7 @@ services:
       MessageBroker__Hostname: messagebroker
       Services__SessionManagementUrl: http://sessionmanagement
       Services__SessionRequestManagementUrl: http://sessionrequestmanagement
-    image: loginvsi/sessionmanagementworker:0.1.0
+    image: loginvsi/sessionmanagementworker:0.2.0
     networks:
     - front
     - messaging
@@ -710,7 +710,7 @@ services:
       Hosting__VirtualDirectory: sessionRegulation
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionregulation:0.1.1
+    image: loginvsi/sessionregulation:0.2.0
     networks:
     - front
     - messaging
@@ -735,7 +735,7 @@ services:
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRegulationUrl: http://sessionregulation/sessionregulation
       Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionrequestmanagement
-    image: loginvsi/sessionregulator:0.1.4
+    image: loginvsi/sessionregulator:0.2.0
     networks:
     - front
     - messaging
@@ -753,7 +753,7 @@ services:
       Hosting__VirtualDirectory: sessionRequestManagement
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionrequestmanagement:0.1.3
+    image: loginvsi/sessionrequestmanagement:0.2.0
     networks:
     - front
     - messaging
@@ -762,7 +762,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/ui:0.1.5
+    image: loginvsi/ui_loginpi:dev
     networks:
     - front
     restart: always
@@ -779,7 +779,7 @@ services:
       Hosting__VirtualDirectory: virtualUserResults
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/virtualuserresults:0.1.1
+    image: loginvsi/virtualuserresults:0.2.0
     networks:
     - front
     - messaging
