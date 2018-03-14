@@ -28,7 +28,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.23'
+      Version__Number: '0.2.24'
     image: loginvsi/accounts:0.2.0
     networks:
     - front
@@ -762,7 +762,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/ui_loginpi:0.5.0
+    image: loginvsi/ui_loginpi:0.5.1
     networks:
     - front
     restart: always
