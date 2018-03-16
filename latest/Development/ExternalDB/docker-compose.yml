@@ -28,7 +28,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.26'
+      Version__Number: '0.2.27'
     image: loginvsi/accounts:0.2.0
     networks:
     - front
@@ -66,7 +66,7 @@ services:
       Hosting__VirtualDirectory: appMonitoringSchedule
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/appmonitoringschedule:0.2.0
+    image: loginvsi/appmonitoringschedule:0.1.1
     networks:
     - front
     - messaging
@@ -431,7 +431,7 @@ services:
       Hosting__VirtualDirectory: measurementActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/measurementactions:0.2.0
+    image: loginvsi/measurementactions:0.1.0
     networks:
     - front
     - messaging
