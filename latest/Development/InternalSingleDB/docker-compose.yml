@@ -31,7 +31,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.25'
+      Version__Number: '99.1.26'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -52,7 +52,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.25'
+      Version__Number: '99.1.26'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -179,8 +179,8 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Hosting__VirtualDirectory: engineHub
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: enginehub
+      IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/enginehub:dev
     networks:
     - front
@@ -230,8 +230,8 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Hosting__VirtualDirectory: eventHub
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: eventhub
+      IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/enginehub:dev
     networks:
     - front
@@ -292,7 +292,7 @@ services:
         condition: on-failure
     environment:
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
-      Hosting__VirtualDirectory: identityServer
+      Hosting__VirtualDirectory: identityserver
     image: loginvsi/identityserver:dev
     networks:
     - front
@@ -327,8 +327,8 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Hosting__VirtualDirectory: launcherHub
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: launcherhub
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/launcherhub:dev
     networks:
@@ -566,8 +566,8 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Hosting__VirtualDirectory: notificationsHub
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: notificationshub
+      IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/notificationshub:dev
     networks:
     - front
