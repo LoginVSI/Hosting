@@ -15,6 +15,25 @@ secrets:
   VSI_SSL_CERTIFICATE_KEY_PASSWORD:
     file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
 services:
+  accountleasing:
+    depends_on:
+    - identityserver
+    - messagebroker
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB__ConnectionString: ${CONNECTION_STRING}
+      DB__DbType: ${DB_TYPE}
+      Hosting__VirtualDirectory: accountleasing
+      IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
+      Version__Number: '99.1.25'
+    image: loginvsi/accountleasing:dev
+    networks:
+    - front
+    - messaging
+    restart: always
   accounts:
     depends_on:
     - identityserver
@@ -26,9 +45,9 @@ services:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: accounts
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.24'
+      Version__Number: '99.1.25'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -36,7 +55,7 @@ services:
     restart: always
   accountsworker:
     depends_on:
-    - sessionrequestmanagement
+    - accountleasing
     - accounts
     - messagebroker
     - identityserver
@@ -44,10 +63,10 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      IdentityProvider__Authority: http://identityserver
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
+      Services__AccountLeasingUrl: http://sessionrequestmanagement/sessionrequestmanagement
       Services__AccountsUrl: http://accounts
-      Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionrequestmanagement
     image: loginvsi/accountsworker:dev
     networks:
     - front
@@ -63,8 +82,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: appMonitoringSchedule
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: appmonitoringschedule
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/appmonitoringschedule:dev
     networks:
@@ -81,8 +100,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: appMonitors
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: appmonitors
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/appmonitors:dev
     networks:
@@ -91,7 +110,7 @@ services:
     restart: always
   appmonitorscheduler:
     depends_on:
-    - sessionmanagement
+    - sessionleasing
     - appmonitoringschedule
     - messagebroker
     - identityserver
@@ -99,10 +118,10 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       Polling__Interval: 10
       Services__AppMonitoringScheduleUrl: http://appmonitoringschedule/appmonitoringschedule
-      Services__SessionManagementUrl: http://sessionmanagement/sessionManagement
+      Services__SessionManagementUrl: http://sessionleasing/sessionleasing
     image: loginvsi/appmonitorscheduler:dev
     networks:
     - front
@@ -117,8 +136,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: appMonitorSources
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: appmonitorsources
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/appmonitorsources:dev
     networks:
@@ -150,6 +169,7 @@ services:
     depends_on:
     - enginehub
     - sessionmanagement
+    - sessionleasing
     - messagebroker
     - identityserver
     deploy:
@@ -159,7 +179,8 @@ services:
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
       Services__HubUrl: ws://enginehub/enginehub/websockets
-      Services__SessionManagementUrl: http://sessionmanagement/sessionManagement
+      Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
+      Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
     image: loginvsi/enginehubworker:dev
     networks:
     - front
@@ -174,8 +195,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: environmentConfiguration
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: environmentconfiguration
+      IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/environmentconfiguration:dev
     networks:
     - front
@@ -268,7 +289,7 @@ services:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: infrastructures
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/infrastructures:dev
     networks:
@@ -294,7 +315,7 @@ services:
     depends_on:
     - launchers
     - sessionmanagement
-    - sessionrequestmanagement
+    - sessionrequests
     - launcherhub
     - messagebroker
     - identityserver
@@ -302,13 +323,31 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
       Services__HubUrl: ws://launcherhub/launcherhub/websockets
       Services__LauncherRegistryUrl: http://launchers/launchers
-      Services__SessionManagementUrl: http://sessionmanagement/sessionManagement
-      Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionRequestManagement
+      Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
+      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/launcherhubworker:dev
+    networks:
+    - front
+    - messaging
+    restart: always
+  launcherleasing:
+    depends_on:
+    - identityserver
+    - messagebroker
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB__ConnectionString: ${CONNECTION_STRING}
+      DB__DbType: ${DB_TYPE}
+      Hosting__VirtualDirectory: launcherleasing
+      IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
+    image: loginvsi/launcherleasing:dev
     networks:
     - front
     - messaging
@@ -316,7 +355,7 @@ services:
   launcherregistryworker:
     depends_on:
     - launchers
-    - sessionmanagement
+    - launcherleasing
     - messagebroker
     - identityserver
     deploy:
@@ -326,7 +365,7 @@ services:
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
       Services__LaunchersUrl: http://launchers/launchers
-      Services__SessionRequestManagementUrl: http://sessionRequestManagement/sessionRequestManagement
+      Services__SessionRequestManagementUrl: http://launcherleasing/launcherleasing
     image: loginvsi/launcherregistryworker:dev
     networks:
     - front
@@ -343,7 +382,7 @@ services:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: launchers
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/launchers:dev
     networks:
@@ -352,17 +391,17 @@ services:
     restart: always
   loginmonitorscheduler:
     depends_on:
-    - sessionrequestmanagement
+    - sessionrequests
     - loginschedule
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       Polling__Interval: 10
       Services__LoginScheduleUrl: http://loginschedule/loginschedule
-      Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionRequestManagement
+      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/loginmonitorscheduler:dev
     networks:
     - front
@@ -377,8 +416,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: loginSchedule
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: loginschedule
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/loginschedule:dev
     networks:
@@ -394,8 +433,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: loginTimeActions
-      IdentityProvider__Authority: http://identityserver
+      Hosting__VirtualDirectory: logintimeactions
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/logintimeactions:dev
     networks:
@@ -411,8 +450,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: loginTimeEvents
-      IdentityProvider__Authority: http://identityserver
+      Hosting__VirtualDirectory: logintimeevents
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/logintimeevents:dev
     networks:
@@ -428,8 +467,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: measurementActions
-      IdentityProvider__Authority: http://identityserver
+      Hosting__VirtualDirectory: measurementactions
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/measurementactions:dev
     networks:
@@ -438,7 +477,6 @@ services:
     restart: always
   measurementactionsworker:
     depends_on:
-    - sessionmanagement
     - virtualuserresults
     - measurementactions
     - messagebroker
@@ -466,8 +504,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: measurementEvents
-      IdentityProvider__Authority: http://identityserver
+      Hosting__VirtualDirectory: measurementevents
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/measurementevents:dev
     networks:
@@ -505,9 +543,9 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Services__HubUrl: ws://notificationshub/notificationsHub
+      Services__HubUrl: ws://notificationshub/notificationshub
     image: loginvsi/notificationsworker:dev
     networks:
     - front
@@ -534,10 +572,10 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      IdentityProvider__Authority: http://identityserver/identityServer
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Services__AppMonitorSourcesUrl: http://appmonitorsources/appMonitorSources
-      Services__AppMonitorsUrl: http://appmonitors/appMonitors
+      Services__AppMonitorSourcesUrl: http://appmonitorsources/appmonitorsources
+      Services__AppMonitorsUrl: http://appmonitors/appmonitors
     image: loginvsi/publishingworker:dev
     networks:
     - front
@@ -552,7 +590,6 @@ services:
         condition: on-failure
     environment:
       IdentityProvider__Authority: http://identityserver/identityServer
-      MessageBroker__Hostname: messagebroker
       Services__AppMonitorsUrl: http://appmonitors/appmonitors
       Services__IdPUrl: http://identityserver/identityserver
     image: loginvsi/scriptseeder:dev
@@ -600,8 +637,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionDiscovery
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: sessiondiscovery
+      IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/sessiondiscovery:dev
     networks:
     - front
@@ -610,7 +647,7 @@ services:
     depends_on:
     - sessiondiscovery
     - sessionmanagement
-    - sessionrequestmanagement
+    - sessionrequests
     - messagebroker
     - identityserver
     deploy:
@@ -621,8 +658,26 @@ services:
       MessageBroker__Hostname: messagebroker
       Services__SessionDiscoveryUrl: http://sessiondiscovery/sessiondiscovery
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
-      Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionrequestmanagement
+      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/sessiondiscoveryworker:dev
+    networks:
+    - front
+    - messaging
+    restart: always
+  sessionleasing:
+    depends_on:
+    - identityserver
+    - messagebroker
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB__ConnectionString: ${CONNECTION_STRING}
+      DB__DbType: ${DB_TYPE}
+      Hosting__VirtualDirectory: sessionleasing
+      IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
+    image: loginvsi/sessionleasing:dev
     networks:
     - front
     - messaging
@@ -637,8 +692,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionLoginResults
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: sessionloginresults
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionloginresults:dev
     networks:
@@ -654,8 +709,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionLogonScripts
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: sessionlogonscripts
+      IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/sessionlogonscripts:dev
     networks:
     - front
@@ -670,8 +725,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionManagement
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: sessionmanagement
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionmanagement:dev
     networks:
@@ -681,7 +736,9 @@ services:
   sessionmanagementworker:
     depends_on:
     - sessionmanagement
-    - sessionrequestmanagement
+    - sessionrequests
+    - accountleasing
+    - launcherleasing
     - messagebroker
     - identityserver
     deploy:
@@ -690,8 +747,10 @@ services:
     environment:
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Services__SessionManagementUrl: http://sessionmanagement
-      Services__SessionRequestManagementUrl: http://sessionrequestmanagement
+      Services__AccountLeasingUrl: http://accountleasing/accountleasing
+      Services__LauncherLeasingUrl: http://launcherleasing/launcherleasing
+      Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
+      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/sessionmanagementworker:dev
     networks:
     - front
@@ -707,8 +766,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionRegulation
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: sessionregulation
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionregulation:dev
     networks:
@@ -719,7 +778,7 @@ services:
     depends_on:
     - sessionregulation
     - sessionmanagement
-    - sessionrequestmanagement
+    - sessionrequests
     - accounts
     - infrastructures
     - messagebroker
@@ -734,13 +793,13 @@ services:
       Services__InfrastructuresUrl: http://infrastructures/infrastructures
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRegulationUrl: http://sessionregulation/sessionregulation
-      Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionrequestmanagement
+      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/sessionregulator:dev
     networks:
     - front
     - messaging
     restart: always
-  sessionrequestmanagement:
+  sessionrequests:
     depends_on:
     - identityserver
     - messagebroker
@@ -750,13 +809,62 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionRequestManagement
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: sessionrequests
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionrequestmanagement:dev
+    image: loginvsi/sessionrequests:dev
     networks:
     - front
     - messaging
+    restart: always
+  sessionrequestworker:
+    depends_on:
+    - sessionrequests
+    - accountleasing
+    - launcherleasing
+    - messagebroker
+    - identityserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
+      Services__AccountLeasingUrl: http://accountleasing/accountleasing
+      Services__AccountsUrl: http://accounts/accounts
+      Services__InfrastructuresUrl: http://infrastructures/infrastructures
+      Services__LauncherLeasingUrl: http://launcherleasing/launcherleasing
+      Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
+      Services__SessionRegulationUrl: http://sessionregulation/sessionregulation
+      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
+    image: loginvsi/sessionrequestworker:dev
+    networks:
+    - front
+    - messaging
+    restart: always
+  timeoutworker:
+    depends_on:
+    - accountleasing
+    - launchers
+    - launcherleasing
+    - sessionleasing
+    - sessionmanagement
+    - sessionrequests
+    - identityserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      IdentityProvider__Authority: http://identityserver/identityserver
+      Services__AccountLeasingsUrl: http://accountleasing/accountleasing
+      Services__LauncherLeasingsUrl: http://launcherleasing/launcherleasing
+      Services__LaunchersUrl: http://launchers/launchers
+      Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
+      Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
+      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
+    image: loginvsi/timeoutworker:dev
+    networks:
+    - front
     restart: always
   ui:
     deploy:
@@ -776,8 +884,8 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: virtualUserResults
-      IdentityProvider__Authority: http://identityserver/identityServer
+      Hosting__VirtualDirectory: virtualuserresults
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/virtualuserresults:dev
     networks:
