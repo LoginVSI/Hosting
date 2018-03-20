@@ -39,7 +39,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.26'
+      Version__Number: '99.1.27'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -60,7 +60,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.26'
+      Version__Number: '99.1.27'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -331,6 +331,8 @@ services:
       restart_policy:
         condition: on-failure
     environment:
+      ClientsSecrets__Engine: ${ENGINE_SECRET}
+      ClientsSecrets__Launcher: ${LAUNCHER_SECRET}
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       Hosting__VirtualDirectory: identityserver
     image: loginvsi/identityserver:dev
