@@ -8,6 +8,8 @@
 secrets:
   ADMIN_PASSWORD:
     external: true
+  LAUNCHER_SECRET:
+    external: true
   USER_PASSWORD:
     external: true
   VSI_SSL_CERTIFICATE:
@@ -39,7 +41,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.27'
+      Version__Number: '99.1.28'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -60,7 +62,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.27'
+      Version__Number: '99.1.28'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -331,8 +333,6 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      ClientsSecrets__Engine: ${ENGINE_SECRET}
-      ClientsSecrets__Launcher: ${LAUNCHER_SECRET}
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       Hosting__VirtualDirectory: identityserver
     image: loginvsi/identityserver:dev
@@ -342,6 +342,7 @@ services:
     secrets:
     - ADMIN_PASSWORD
     - USER_PASSWORD
+    - LAUNCHER_SECRET
   infrastructures:
     depends_on:
     - infrastructuresDb
