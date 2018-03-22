@@ -31,7 +31,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.27'
+      Version__Number: '0.2.28'
     image: loginvsi/accounts:0.2.0
     networks:
     - databases
@@ -300,12 +300,14 @@ services:
       restart_policy:
         condition: on-failure
     environment:
+      ClientsSecrets__Engine: ${ENGINE_SECRET}
+      ClientsSecrets__Launcher: ${LAUNCHER_SECRET}
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       Hosting__VirtualDirectory: identityServer
-      restart: always
     image: loginvsi/identityserver:0.1.2
     networks:
     - front
+    restart: always
     secrets:
     - ADMIN_PASSWORD
     - USER_PASSWORD
