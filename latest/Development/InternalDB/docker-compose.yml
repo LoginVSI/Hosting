@@ -8,6 +8,8 @@
 secrets:
   ADMIN_PASSWORD:
     file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+  LAUNCHER_SECRET:
+    file: ${LAUNCHER_SECRET_PATH}
   USER_PASSWORD:
     file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
   VSI_SSL_CERTIFICATE:
@@ -31,7 +33,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.28'
+      Version__Number: '0.2.29'
     image: loginvsi/accounts:0.2.0
     networks:
     - databases
@@ -302,8 +304,6 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      ClientsSecrets__Engine: ${ENGINE_SECRET}
-      ClientsSecrets__Launcher: ${LAUNCHER_SECRET}
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       Hosting__VirtualDirectory: identityServer
     image: loginvsi/identityserver:0.1.2
@@ -313,6 +313,7 @@ services:
     secrets:
     - ADMIN_PASSWORD
     - USER_PASSWORD
+    - LAUNCHER_SECRET
   infrastructures:
     depends_on:
     - infrastructuresDb
