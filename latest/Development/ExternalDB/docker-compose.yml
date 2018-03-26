@@ -30,7 +30,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.28'
+      Version__Number: '99.1.29'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -49,7 +49,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.28'
+      Version__Number: '99.1.29'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -584,6 +584,55 @@ services:
     - front
     - messaging
     restart: always
+  reports:
+    depends_on:
+    - identityserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB__ConnectionString: ${CONNECTION_STRING}
+      DB__DbType: ${DB_TYPE}
+      Hosting__VirtualDirectory: reports
+      IdentityProvider__Authority: http://identityserver/identityserver
+    image: loginvsi/reports:dev
+    networks:
+    - front
+    restart: always
+  reportschedules:
+    depends_on:
+    - identityserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB__ConnectionString: ${CONNECTION_STRING}
+      DB__DbType: ${DB_TYPE}
+      Hosting__VirtualDirectory: reportschedules
+      IdentityProvider__Authority: http://identityserver/identityserver
+    image: loginvsi/reportschedules:dev
+    networks:
+    - front
+    restart: always
+  reportsworker:
+    depends_on:
+    - appmonitors
+    - identityserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      IdentityProvider__Authority: http://identityserver/identityServer
+      MessageBroker__Hostname: messagebroker
+      Polling__Interval: 60
+      Services__ReportSchedulesUrl: http://reportschedules
+      Services__ReportsUrl: http://reports
+      Services__SessionRequestManagementUrl: http://sessionrequestmanagement
+      Services__VirtualUserResultsUrl: http://virtualuserresults
+    image: loginvsi/reportsworker:dev
+    networks:
+    - front
+    restart: on-failure
   scriptseeder:
     depends_on:
     - appmonitors
@@ -604,7 +653,7 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Hosting__VirtualDirectory: serverUrls
+      Hosting__VirtualDirectory: serverurls
     image: loginvsi/serverurls:dev
     networks:
     - front
