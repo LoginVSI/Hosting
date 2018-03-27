@@ -41,7 +41,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.31'
+      Version__Number: '99.1.32'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -62,7 +62,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.31'
+      Version__Number: '99.1.32'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -281,6 +281,7 @@ services:
   gateway:
     depends_on:
     - accounts
+    - accountleasing
     - appmonitors
     - appmonitoringschedule
     - appmonitorsources
@@ -291,6 +292,7 @@ services:
     - identityserver
     - infrastructures
     - launcherhub
+    - launcherleasing
     - launchers
     - logintimeactions
     - logintimeevents
@@ -303,6 +305,7 @@ services:
     - sessionlogonscripts
     - sessionmanagement
     - sessionregulation
+    - sessionrequests
     - notificationshub
     - virtualuserresults
     - accountsworker
