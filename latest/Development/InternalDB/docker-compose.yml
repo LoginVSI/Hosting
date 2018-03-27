@@ -41,7 +41,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.32'
+      Version__Number: '99.1.33'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -62,7 +62,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.32'
+      Version__Number: '99.1.33'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -89,7 +89,7 @@ services:
     environment:
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Services__AccountLeasingUrl: http://sessionrequestmanagement/sessionrequestmanagement
+      Services__AccountLeasingUrl: http://accountleasing/accountleasing
       Services__AccountsUrl: http://accounts
     image: loginvsi/accountsworker:dev
     networks:
@@ -162,7 +162,6 @@ services:
     restart: always
   appmonitorscheduler:
     depends_on:
-    - sessionleasing
     - appmonitoringschedule
     - messagebroker
     - identityserver
@@ -173,7 +172,7 @@ services:
       IdentityProvider__Authority: http://identityserver/identityserver
       Polling__Interval: 10
       Services__AppMonitoringScheduleUrl: http://appmonitoringschedule/appmonitoringschedule
-      Services__SessionManagementUrl: http://sessionleasing/sessionleasing
+      Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
     image: loginvsi/appmonitorscheduler:dev
     networks:
     - front
@@ -224,8 +223,6 @@ services:
   enginehubworker:
     depends_on:
     - enginehub
-    - sessionmanagement
-    - sessionleasing
     - messagebroker
     - identityserver
     deploy:
@@ -236,7 +233,6 @@ services:
       MessageBroker__Hostname: messagebroker
       Services__HubUrl: ws://enginehub/enginehub/websockets
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
-      Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
     image: loginvsi/enginehubworker:dev
     networks:
     - front
@@ -788,8 +784,12 @@ services:
     restart: always
   reportsworker:
     depends_on:
-    - appmonitors
+    - reports
+    - reportschedules
+    - sessionmanagement
+    - virtualuserresults
     - identityserver
+    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -797,10 +797,10 @@ services:
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
       Polling__Interval: 60
-      Services__ReportSchedulesUrl: http://reportschedules
-      Services__ReportsUrl: http://reports
-      Services__SessionRequestManagementUrl: http://sessionrequestmanagement
-      Services__VirtualUserResultsUrl: http://virtualuserresults
+      Services__ReportSchedulesUrl: http://reportschedules/reportschedules
+      Services__ReportsUrl: http://reports/reports
+      Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
+      Services__VirtualUserResultsUrl: http://virtualuserresults/virtualuserresults
     image: loginvsi/reportsworker:dev
     networks:
     - front
@@ -897,7 +897,7 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Calculator__ScriptDurationInSeconds: 30
+      Calculator__ScriptDurationInSeconds: 20
       Calculator__SessionTargetCountBuffer: 2
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
@@ -1125,11 +1125,9 @@ services:
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
       Services__AccountLeasingUrl: http://accountleasing/accountleasing
-      Services__AccountsUrl: http://accounts/accounts
       Services__InfrastructuresUrl: http://infrastructures/infrastructures
       Services__LauncherLeasingUrl: http://launcherleasing/launcherleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
-      Services__SessionRegulationUrl: http://sessionregulation/sessionregulation
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/sessionrequestworker:dev
     networks:
