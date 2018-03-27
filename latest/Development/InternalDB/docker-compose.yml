@@ -1,4 +1,4 @@
-﻿networks:
+networks:
   databases:
     driver: bridge
   front:
@@ -33,7 +33,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.29'
+      Version__Number: '0.2.30'
     image: loginvsi/accounts:0.2.0
     networks:
     - databases
