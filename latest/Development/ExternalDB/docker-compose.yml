@@ -1,4 +1,4 @@
-﻿networks:
+networks:
   front:
     driver: bridge
   messaging:
@@ -30,7 +30,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.33'
+      Version__Number: '99.1.34'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -49,7 +49,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.33'
+      Version__Number: '99.1.34'
     image: loginvsi/accounts:dev
     networks:
     - front

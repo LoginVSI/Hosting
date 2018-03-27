@@ -19,26 +19,16 @@ secrets:
   VSI_SSL_CERTIFICATE_KEY_PASSWORD:
     file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
 services:
-  accountLeasingDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/accountLeasingDb:/var/lib/postgresql/data
   accountleasing:
     depends_on:
-    - accountLeasingDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=accountLeasingDb;Database=AccountLeasing;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=AccountLeasing;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -52,14 +42,14 @@ services:
     restart: always
   accounts:
     depends_on:
-    - accountsDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=accountsDb;Database=Accounts;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=Accounts;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -71,16 +61,6 @@ services:
     - front
     - messaging
     restart: always
-  accountsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/accountsDb:/var/lib/postgresql/data
   accountsworker:
     depends_on:
     - accountleasing
@@ -100,7 +80,7 @@ services:
     - front
     - messaging
     restart: always
-  appMonitorSourcesDb:
+  allDbs:
     deploy:
       restart_policy:
         condition: on-failure
@@ -108,38 +88,16 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitorSourcesDb:/var/lib/postgresql/data
-  appMonitoringScheduleDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitoringScheduleDb:/var/lib/postgresql/data
-  appMonitorsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitorsDb:/var/lib/postgresql/data
   appmonitoringschedule:
     depends_on:
-    - appMonitoringScheduleDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=appMonitoringScheduleDb;Database=AppMonitoringSchedule;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=AppMonitoringSchedule;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: appmonitoringschedule
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -152,14 +110,14 @@ services:
     restart: always
   appmonitors:
     depends_on:
-    - appMonitorsDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=appMonitorsDb;Database=AppMonitors;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=AppMonitors;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: appmonitors
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -189,14 +147,14 @@ services:
     restart: always
   appmonitorsources:
     depends_on:
-    - appMonitorSourcesDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=appMonitorSourcesDb;Database=AppMonitorSources;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=AppMonitorSources;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: appmonitorsources
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -227,8 +185,6 @@ services:
     image: loginvsi/enginehub:dev
     networks:
     - front
-    ports:
-    - 4000:80
     restart: always
   enginehubworker:
     depends_on:
@@ -248,25 +204,15 @@ services:
     - front
     - messaging
     restart: always
-  environmentConfigurationDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/environmentConfigurationDb:/var/lib/postgresql/data
   environmentconfiguration:
     depends_on:
-    - environmentConfigurationDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=environmentConfigurationDb;Database=EnvironmentConfiguration;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=EnvironmentConfiguration;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: environmentconfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -358,14 +304,14 @@ services:
     - LAUNCHER_SECRET
   infrastructures:
     depends_on:
-    - infrastructuresDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=infrastructuresDb;Database=Infrastructures;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=Infrastructures;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: infrastructures
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -376,26 +322,6 @@ services:
     - front
     - messaging
     restart: always
-  infrastructuresDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/infrastructuresDb:/var/lib/postgresql/data
-  launcherLeasingDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/launcherLeasingDb:/var/lib/postgresql/data
   launcherhub:
     depends_on:
     - identityserver
@@ -410,8 +336,6 @@ services:
     networks:
     - front
     - messaging
-    ports:
-    - 4001:80
     restart: always
   launcherhubworker:
     depends_on:
@@ -438,14 +362,14 @@ services:
     restart: always
   launcherleasing:
     depends_on:
-    - launcherLeasingDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=launcherLeasingDb;Database=LauncherLeasing;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=LauncherLeasing;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: launcherleasing
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -477,14 +401,14 @@ services:
     restart: always
   launchers:
     depends_on:
-    - launchersDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=launchersDb;Database=Launchers;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=Launchers;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: launchers
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -495,26 +419,6 @@ services:
     - front
     - messaging
     restart: always
-  launchersDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/launchersDb:/var/lib/postgresql/data
-  loginScheduleDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/loginScheduleDb:/var/lib/postgresql/data
   loginmonitorscheduler:
     depends_on:
     - sessionrequests
@@ -534,14 +438,14 @@ services:
     restart: always
   loginschedule:
     depends_on:
-    - loginScheduleDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=launchersDb;Database=LoginSchedule;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=LoginSchedule;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: loginschedule
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -554,13 +458,13 @@ services:
     restart: always
   logintimeactions:
     depends_on:
-    - logintimeactionsDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=logintimeactionsDb;Database=LoginTimeActions;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=LoginTimeActions;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: logintimeactions
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -571,25 +475,15 @@ services:
     - front
     - messaging
     restart: always
-  logintimeactionsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/logintimeactionsDb:/var/lib/postgresql/data
   logintimeevents:
     depends_on:
-    - logintimeeventsDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=logintimeeventsDb;Database=LoginTimeEvents;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=LoginTimeEvents;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: logintimeevents
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -600,25 +494,15 @@ services:
     - front
     - messaging
     restart: always
-  logintimeeventsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/logintimeeventsDb:/var/lib/postgresql/data
   measurementactions:
     depends_on:
-    - measurementactionsDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=measurementactionsDb;Database=MeasurementActions;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=MeasurementActions;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: measurementactions
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -629,16 +513,6 @@ services:
     - front
     - messaging
     restart: always
-  measurementactionsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/measurementactionsDb:/var/lib/postgresql/data
   measurementactionsworker:
     depends_on:
     - virtualuserresults
@@ -661,13 +535,13 @@ services:
     restart: always
   measurementevents:
     depends_on:
-    - measurementeventsDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=measurementeventsDb;Database=MeasurementEvents;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=MeasurementEvents;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: measurementevents
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -678,16 +552,6 @@ services:
     - front
     - messaging
     restart: always
-  measurementeventsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/measurementeventsDb:/var/lib/postgresql/data
   messagebroker:
     deploy:
       restart_policy:
@@ -696,9 +560,6 @@ services:
     image: rabbitmq:3.6.12-management
     networks:
     - messaging
-    ports:
-    - 5672:5672
-    - 15672:15672
     restart: always
   notificationshub:
     depends_on:
@@ -762,13 +623,13 @@ services:
     restart: always
   reports:
     depends_on:
-    - reportsDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=reportsDb;Database=Reports;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=Reports;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: reports
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -777,25 +638,15 @@ services:
     - databases
     - front
     restart: always
-  reportsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/reportsDb:/var/lib/postgresql/data
   reportschedules:
     depends_on:
-    - reportschedulesDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=reportschedulesDb;Database=ReportSchedules;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=ReportSchedules;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: reportschedules
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -804,16 +655,6 @@ services:
     - databases
     - front
     restart: always
-  reportschedulesDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/reportschedulesDb:/var/lib/postgresql/data
   reportsworker:
     depends_on:
     - reports
@@ -862,76 +703,6 @@ services:
     networks:
     - front
     restart: always
-  sessionDiscoveryDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/sessionDiscoveryDb:/var/lib/postgresql/data
-  sessionLeasingDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLeasingDb:/var/lib/postgresql/data
-  sessionLoginResultsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLoginResultsDb:/var/lib/postgresql/data
-  sessionLogonScriptsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLogonScriptsDb:/var/lib/postgresql/data
-  sessionManagementDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/sessionManagementDb:/var/lib/postgresql/data
-  sessionRegulationDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/sessionRegulationDb:/var/lib/postgresql/data
-  sessionRequestsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/sessionRequestsDb:/var/lib/postgresql/data
   sessioncalculator:
     depends_on:
     - infrastructures
@@ -956,13 +727,13 @@ services:
     restart: always
   sessiondiscovery:
     depends_on:
-    - sessionDiscoveryDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=sessionDiscoveryDb;Database=SessionDiscovery;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=SessionDiscovery;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessiondiscovery
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -994,14 +765,14 @@ services:
     restart: always
   sessionleasing:
     depends_on:
-    - sessionLeasingDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=sessionLeasingDb;Database=SessionLeasing;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=SessionLeasing;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionleasing
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -1014,14 +785,14 @@ services:
     restart: always
   sessionloginresults:
     depends_on:
-    - sessionLoginResultsDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=sessionLoginResultsDb;Database=SessionLoginResults;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=SessionLoginResults;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionloginresults
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -1034,13 +805,13 @@ services:
     restart: always
   sessionlogonscripts:
     depends_on:
-    - sessionLogonScriptsDb
+    - allDbs
     - identityserver
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=sessionLogonScriptsDb;Database=SessionLogonScripts;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=SessionLogonScript;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionlogonscripts
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -1051,14 +822,14 @@ services:
     restart: always
   sessionmanagement:
     depends_on:
-    - sessionManagementDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=sessionManagementDb;Database=SessionManagement;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=SessionManagement;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionmanagement
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -1094,14 +865,14 @@ services:
     restart: always
   sessionregulation:
     depends_on:
-    - sessionRegulationDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=sessionRegulationDb;Database=SessionRegulation;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=SessionRegulation;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionregulation
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -1139,14 +910,14 @@ services:
     restart: always
   sessionrequests:
     depends_on:
-    - sessionRequestsDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=sessionRequestsDb;Database=SessionRequests;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=SessionRequests;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionrequests
       IdentityProvider__Authority: http://identityserver/identityserver
@@ -1212,26 +983,16 @@ services:
     networks:
     - front
     restart: always
-  virtualUserResultsDb:
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: postgres:9
-    networks:
-    - databases
-    restart: always
-    volumes:
-    - ${DB_ROOT}/virtualUserResultsDb:/var/lib/postgresql/data
   virtualuserresults:
     depends_on:
-    - virtualUserResultsDb
+    - allDbs
     - identityserver
     - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
     environment:
-      DB__ConnectionString: Server=virtualUserResultsDb;Database=VirtualUserResults;Username=postgres;
+      DB__ConnectionString: Server=allDbs;Database=VirtualUserResults;Username=postgres;
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: virtualuserresults
       IdentityProvider__Authority: http://identityserver/identityserver
