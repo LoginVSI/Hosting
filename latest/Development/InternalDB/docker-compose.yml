@@ -33,7 +33,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.35'
+      Version__Number: '0.2.36'
     image: loginvsi/accounts:wait
     networks:
     - databases
@@ -145,7 +145,7 @@ services:
       Polling__Interval: 10
       Services__AppMonitoringScheduleUrl: http://appmonitoringschedule/appmonitoringschedule
       Services__SessionManagementUrl: http://sessionmanagement/sessionManagement
-    image: loginvsi/appmonitorscheduler:0.2.0
+    image: loginvsi/appmonitorscheduler:wait
     networks:
     - front
     restart: always
@@ -450,7 +450,7 @@ services:
       Polling__Interval: 10
       Services__LoginScheduleUrl: http://loginschedule/loginschedule
       Services__SessionRequestManagementUrl: http://sessionrequestmanagement/sessionRequestManagement
-    image: loginvsi/loginmonitorscheduler:0.2.0
+    image: loginvsi/loginmonitorscheduler:wait
     networks:
     - front
     restart: always
@@ -687,7 +687,7 @@ services:
       MessageBroker__Hostname: messagebroker
       Services__AppMonitorsUrl: http://appmonitors/appmonitors
       Services__IdPUrl: http://identityserver/identityserver
-    image: loginvsi/scriptseeder:0.1.2
+    image: loginvsi/scriptseeder:wait
     networks:
     - front
     restart: on-failure
