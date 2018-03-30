@@ -30,7 +30,7 @@ services:
       Retry__ConnectDelay: 25
       Retry__MaxAttempts: 50
       Retry__RetryDelay: 10
-      Version__Number: '0.2.38'
+      Version__Number: '0.2.39'
     image: loginvsi/accounts:wait
     networks:
     - front
@@ -185,7 +185,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/gateway_product:0.1.1
+    environment:
+      START_DELAY: 60
+    image: loginvsi/gateway_product:wait
     networks:
     - front
     - messaging
