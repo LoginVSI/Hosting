@@ -22,8 +22,6 @@ services:
   accounts:
     depends_on:
     - accountsDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -33,7 +31,10 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.37'
+      Retry__ConnectDelay: 25
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
+      Version__Number: '0.2.38'
     image: loginvsi/accounts:wait
     networks:
     - databases
@@ -49,11 +50,6 @@ services:
     - databases
     restart: always
   accountsworker:
-    depends_on:
-    - sessionrequestmanagement
-    - accounts
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -94,8 +90,6 @@ services:
   appmonitoringschedule:
     depends_on:
     - appMonitoringScheduleDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -105,6 +99,9 @@ services:
       Hosting__VirtualDirectory: appMonitoringSchedule
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 27
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/appmonitoringschedule:wait
     networks:
     - databases
@@ -114,8 +111,6 @@ services:
   appmonitors:
     depends_on:
     - appMonitorsDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -125,6 +120,9 @@ services:
       Hosting__VirtualDirectory: appMonitors
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 26
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/appmonitors:wait
     networks:
     - databases
@@ -132,11 +130,6 @@ services:
     - messaging
     restart: always
   appmonitorscheduler:
-    depends_on:
-    - sessionmanagement
-    - appmonitoringschedule
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -152,8 +145,6 @@ services:
   appmonitorsources:
     depends_on:
     - appMonitorSourcesDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -163,6 +154,9 @@ services:
       Hosting__VirtualDirectory: appMonitorSources
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 28
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/appmonitorsources:wait
     networks:
     - databases
@@ -193,11 +187,6 @@ services:
     - 4000:80
     restart: always
   enginehubworker:
-    depends_on:
-    - enginehub
-    - sessionmanagement
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -222,7 +211,6 @@ services:
   environmentconfiguration:
     depends_on:
     - environmentConfigurationDb
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -231,6 +219,9 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: environmentConfiguration
       IdentityProvider__Authority: http://identityserver/identityServer
+      Retry__ConnectDelay: 30
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/environmentconfiguration:wait
     networks:
     - databases
@@ -250,41 +241,6 @@ services:
     - front
     restart: always
   gateway:
-    depends_on:
-    - accounts
-    - appmonitors
-    - appmonitoringschedule
-    - appmonitorsources
-    - contentdelivery
-    - enginehub
-    - environmentconfiguration
-    - eventhub
-    - identityserver
-    - infrastructures
-    - launcherhub
-    - launchers
-    - logintimeactions
-    - logintimeevents
-    - measurementactions
-    - measurementevents
-    - messagebroker
-    - serverurls
-    - sessiondiscovery
-    - sessionloginresults
-    - sessionlogonscripts
-    - sessionmanagement
-    - sessionregulation
-    - notificationshub
-    - virtualuserresults
-    - accountsworker
-    - appmonitorscheduler
-    - enginehubworker
-    - launcherhubworker
-    - launcherregistryworker
-    - notificationsworker
-    - publishingworker
-    - sessiondiscoveryworker
-    - sessionmanagementworker
     deploy:
       restart_policy:
         condition: on-failure
@@ -317,8 +273,6 @@ services:
   infrastructures:
     depends_on:
     - infrastructuresDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -328,6 +282,9 @@ services:
       Hosting__VirtualDirectory: infrastructures
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 31
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/infrastructures:wait
     networks:
     - databases
@@ -360,13 +317,6 @@ services:
     - 4001:80
     restart: always
   launcherhubworker:
-    depends_on:
-    - launchers
-    - sessionmanagement
-    - sessionrequestmanagement
-    - launcherhub
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -383,11 +333,6 @@ services:
     - messaging
     restart: always
   launcherregistryworker:
-    depends_on:
-    - launchers
-    - sessionmanagement
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -404,8 +349,6 @@ services:
   launchers:
     depends_on:
     - launchersDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -415,6 +358,9 @@ services:
       Hosting__VirtualDirectory: launchers
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 32
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/launchers:wait
     networks:
     - databases
@@ -438,10 +384,6 @@ services:
     - databases
     restart: always
   loginmonitorscheduler:
-    depends_on:
-    - sessionrequestmanagement
-    - loginschedule
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -457,8 +399,6 @@ services:
   loginschedule:
     depends_on:
     - loginScheduleDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -468,6 +408,9 @@ services:
       Hosting__VirtualDirectory: loginSchedule
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 33
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/loginschedule:wait
     networks:
     - databases
@@ -477,7 +420,6 @@ services:
   logintimeactions:
     depends_on:
     - logintimeactionsDb
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -487,6 +429,9 @@ services:
       Hosting__VirtualDirectory: loginTimeActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 35
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/logintimeactions:wait
     networks:
     - databases
@@ -504,7 +449,6 @@ services:
   logintimeevents:
     depends_on:
     - logintimeeventsDb
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -514,6 +458,9 @@ services:
       Hosting__VirtualDirectory: loginTimeEvents
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 36
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/logintimeevents:wait
     networks:
     - databases
@@ -531,7 +478,6 @@ services:
   measurementactions:
     depends_on:
     - measurementactionsDb
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -541,6 +487,9 @@ services:
       Hosting__VirtualDirectory: measurementActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 37
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/measurementactions:wait
     networks:
     - databases
@@ -556,12 +505,6 @@ services:
     - databases
     restart: always
   measurementactionsworker:
-    depends_on:
-    - sessionmanagement
-    - virtualuserresults
-    - measurementactions
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -579,7 +522,6 @@ services:
   measurementevents:
     depends_on:
     - measurementeventsDb
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -589,6 +531,9 @@ services:
       Hosting__VirtualDirectory: measurementEvents
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 58
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/measurementevents:wait
     networks:
     - databases
@@ -629,10 +574,6 @@ services:
     - front
     restart: always
   notificationsworker:
-    depends_on:
-    - notificationshub
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -657,11 +598,6 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   publishingworker:
-    depends_on:
-    - appmonitors
-    - appmonitorsources
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -676,9 +612,6 @@ services:
     - messaging
     restart: always
   scriptseeder:
-    depends_on:
-    - appmonitors
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -750,12 +683,6 @@ services:
     - databases
     restart: always
   sessioncalculator:
-    depends_on:
-    - infrastructures
-    - appmonitoringschedule
-    - sessionregulation
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -774,7 +701,6 @@ services:
   sessiondiscovery:
     depends_on:
     - sessionDiscoveryDb
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -783,18 +709,15 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionDiscovery
       IdentityProvider__Authority: http://identityserver/identityServer
+      Retry__ConnectDelay: 40
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/sessiondiscovery:wait
     networks:
     - databases
     - front
     restart: always
   sessiondiscoveryworker:
-    depends_on:
-    - sessiondiscovery
-    - sessionmanagement
-    - sessionrequestmanagement
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -812,8 +735,6 @@ services:
   sessionloginresults:
     depends_on:
     - sessionLoginResultsDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -823,6 +744,9 @@ services:
       Hosting__VirtualDirectory: sessionLoginResults
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 42
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/sessionloginresults:wait
     networks:
     - databases
@@ -832,7 +756,6 @@ services:
   sessionlogonscripts:
     depends_on:
     - sessionLogonScriptsDb
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -841,6 +764,9 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionLogonScripts
       IdentityProvider__Authority: http://identityserver/identityServer
+      Retry__ConnectDelay: 43
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/sessionlogonscripts:wait
     networks:
     - databases
@@ -849,8 +775,6 @@ services:
   sessionmanagement:
     depends_on:
     - sessionManagementDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -860,6 +784,9 @@ services:
       Hosting__VirtualDirectory: sessionManagement
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 44
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/sessionmanagement:wait
     networks:
     - databases
@@ -867,11 +794,6 @@ services:
     - messaging
     restart: always
   sessionmanagementworker:
-    depends_on:
-    - sessionmanagement
-    - sessionrequestmanagement
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -888,8 +810,6 @@ services:
   sessionregulation:
     depends_on:
     - sessionRegulationDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -899,6 +819,9 @@ services:
       Hosting__VirtualDirectory: sessionRegulation
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 45
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/sessionregulation:wait
     networks:
     - databases
@@ -906,14 +829,6 @@ services:
     - messaging
     restart: always
   sessionregulator:
-    depends_on:
-    - sessionregulation
-    - sessionmanagement
-    - sessionrequestmanagement
-    - accounts
-    - infrastructures
-    - messagebroker
-    - identityserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -933,8 +848,6 @@ services:
   sessionrequestmanagement:
     depends_on:
     - sessionRequestManagementDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -944,6 +857,9 @@ services:
       Hosting__VirtualDirectory: sessionRequestManagement
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 46
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/sessionrequestmanagement:wait
     networks:
     - databases
@@ -969,8 +885,6 @@ services:
   virtualuserresults:
     depends_on:
     - virtualUserResultsDb
-    - identityserver
-    - messagebroker
     deploy:
       restart_policy:
         condition: on-failure
@@ -980,6 +894,9 @@ services:
       Hosting__VirtualDirectory: virtualUserResults
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
+      Retry__ConnectDelay: 47
+      Retry__MaxAttempts: 50
+      Retry__RetryDelay: 10
     image: loginvsi/virtualuserresults:wait
     networks:
     - databases
