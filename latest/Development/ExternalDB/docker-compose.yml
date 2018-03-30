@@ -30,8 +30,8 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.34'
-    image: loginvsi/accounts:0.2.0
+      Version__Number: '0.2.35'
+    image: loginvsi/accounts:wait
     networks:
     - front
     - messaging
@@ -68,7 +68,7 @@ services:
       Hosting__VirtualDirectory: appMonitoringSchedule
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/appmonitoringschedule:0.1.1
+    image: loginvsi/appmonitoringschedule:wait
     networks:
     - front
     - messaging
@@ -86,7 +86,7 @@ services:
       Hosting__VirtualDirectory: appMonitors
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/appmonitors:0.2.0
+    image: loginvsi/appmonitors:wait
     networks:
     - front
     - messaging
@@ -122,7 +122,7 @@ services:
       Hosting__VirtualDirectory: appMonitorSources
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/appmonitorsources:0.2.0
+    image: loginvsi/appmonitorsources:wait
     networks:
     - front
     - messaging
@@ -178,7 +178,7 @@ services:
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: environmentConfiguration
       IdentityProvider__Authority: http://identityserver/identityServer
-    image: loginvsi/environmentconfiguration:0.1.0
+    image: loginvsi/environmentconfiguration:wait
     networks:
     - front
     restart: always
@@ -273,7 +273,7 @@ services:
       Hosting__VirtualDirectory: infrastructures
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/infrastructures:0.2.0
+    image: loginvsi/infrastructures:wait
     networks:
     - front
     - messaging
@@ -348,7 +348,7 @@ services:
       Hosting__VirtualDirectory: launchers
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/launchers:0.2.0
+    image: loginvsi/launchers:wait
     networks:
     - front
     - messaging
@@ -383,7 +383,7 @@ services:
       Hosting__VirtualDirectory: loginSchedule
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/loginschedule:0.2.0
+    image: loginvsi/loginschedule:wait
     networks:
     - front
     - messaging
@@ -400,7 +400,7 @@ services:
       Hosting__VirtualDirectory: loginTimeActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/logintimeactions:0.1.0
+    image: loginvsi/logintimeactions:wait
     networks:
     - front
     - messaging
@@ -417,7 +417,7 @@ services:
       Hosting__VirtualDirectory: loginTimeEvents
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/logintimeevents:0.1.1
+    image: loginvsi/logintimeevents:wait
     networks:
     - front
     - messaging
@@ -434,7 +434,7 @@ services:
       Hosting__VirtualDirectory: measurementActions
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/measurementactions:0.1.0
+    image: loginvsi/measurementactions:wait
     networks:
     - front
     - messaging
@@ -472,7 +472,7 @@ services:
       Hosting__VirtualDirectory: measurementEvents
       IdentityProvider__Authority: http://identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/measurementevents:0.2.0
+    image: loginvsi/measurementevents:wait
     networks:
     - front
     - messaging
@@ -605,7 +605,7 @@ services:
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: sessionDiscovery
       IdentityProvider__Authority: http://identityserver/identityServer
-    image: loginvsi/sessiondiscovery:0.2.0
+    image: loginvsi/sessiondiscovery:wait
     networks:
     - front
     restart: always
@@ -643,7 +643,7 @@ services:
       Hosting__VirtualDirectory: sessionLoginResults
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionloginresults:0.2.0
+    image: loginvsi/sessionloginresults:wait
     networks:
     - front
     - messaging
@@ -659,7 +659,7 @@ services:
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: sessionLogonScripts
       IdentityProvider__Authority: http://identityserver/identityServer
-    image: loginvsi/sessionlogonscripts:0.1.1
+    image: loginvsi/sessionlogonscripts:wait
     networks:
     - front
     restart: always
@@ -676,7 +676,7 @@ services:
       Hosting__VirtualDirectory: sessionManagement
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionmanagement:0.2.0
+    image: loginvsi/sessionmanagement:wait
     networks:
     - front
     - messaging
@@ -713,7 +713,7 @@ services:
       Hosting__VirtualDirectory: sessionRegulation
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionregulation:0.2.0
+    image: loginvsi/sessionregulation:wait
     networks:
     - front
     - messaging
@@ -756,7 +756,7 @@ services:
       Hosting__VirtualDirectory: sessionRequestManagement
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionrequestmanagement:0.2.0
+    image: loginvsi/sessionrequestmanagement:wait
     networks:
     - front
     - messaging
@@ -782,7 +782,7 @@ services:
       Hosting__VirtualDirectory: virtualUserResults
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/virtualuserresults:0.2.0
+    image: loginvsi/virtualuserresults:wait
     networks:
     - front
     - messaging
