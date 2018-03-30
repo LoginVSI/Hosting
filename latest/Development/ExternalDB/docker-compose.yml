@@ -30,7 +30,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.36'
+      Version__Number: '0.2.37'
     image: loginvsi/accounts:wait
     networks:
     - front
