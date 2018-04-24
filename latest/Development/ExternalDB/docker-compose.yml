@@ -30,7 +30,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.37'
+      Version__Number: '99.1.38'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -49,7 +49,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.37'
+      Version__Number: '99.1.38'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -558,6 +558,7 @@ services:
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: reports
       IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
     image: loginvsi/reports:dev
     networks:
     - front
@@ -573,6 +574,7 @@ services:
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: reportschedules
       IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
     image: loginvsi/reportschedules:dev
     networks:
     - front
