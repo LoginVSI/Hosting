@@ -1,23 +1,23 @@
 networks:
   databases:
-    driver: bridge
+    driver: overlay
   front:
-    driver: bridge
+    driver: overlay
   messaging:
-    driver: bridge
+    driver: overlay
 secrets:
   ADMIN_PASSWORD:
-    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+    external: true
   LAUNCHER_SECRET:
-    file: ${LAUNCHER_SECRET_PATH}
+    external: true
   USER_PASSWORD:
-    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+    external: true
   VSI_SSL_CERTIFICATE:
     file: ${SSL_CERTIFICATE_PATH}
   VSI_SSL_CERTIFICATE_KEY:
     file: ${SSL_CERTIFICATE_KEY_PATH}
   VSI_SSL_CERTIFICATE_KEY_PASSWORD:
-    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+    external: true
 services:
   accountLeasingDb:
     deploy:
@@ -43,7 +43,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.39'
+      Version__Number: '99.1.37'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -64,7 +64,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.39'
+      Version__Number: '99.1.37'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -227,8 +227,6 @@ services:
     image: loginvsi/enginehub:dev
     networks:
     - front
-    ports:
-    - 4000:80
     restart: always
   enginehubworker:
     depends_on:
@@ -374,8 +372,6 @@ services:
     networks:
     - front
     - messaging
-    ports:
-    - 4001:80
     restart: always
   launcherhubworker:
     depends_on:
@@ -660,9 +656,6 @@ services:
     image: rabbitmq:3.6.12-management
     networks:
     - messaging
-    ports:
-    - 5672:5672
-    - 15672:15672
     restart: always
   notificationshub:
     depends_on:
@@ -694,17 +687,6 @@ services:
     - front
     - messaging
     restart: always
-  portainer:
-    command: -d /data -H unix:///var/run/docker.sock --admin-password '$$2y$$05$$DTUYaqFuY0ot0BuUqKE4d.KyQmBzZiUe64rl6QLTYhS/9Nl000vK.'
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: portainer/portainer
-    ports:
-    - 9000:9000
-    restart: always
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
   publishingworker:
     depends_on:
     - appmonitors
@@ -736,12 +718,10 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: reports
       IdentityProvider__Authority: http://identityserver/identityserver
-      MessageBroker__Hostname: messagebroker
     image: loginvsi/reports:dev
     networks:
     - databases
     - front
-    - messaging
     restart: always
   reportsDb:
     deploy:
@@ -765,12 +745,10 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: reportschedules
       IdentityProvider__Authority: http://identityserver/identityserver
-      MessageBroker__Hostname: messagebroker
     image: loginvsi/reportschedules:dev
     networks:
     - databases
     - front
-    - messaging
     restart: always
   reportschedulesDb:
     deploy:

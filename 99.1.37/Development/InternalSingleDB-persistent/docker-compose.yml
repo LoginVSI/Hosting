@@ -43,7 +43,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.39'
+      Version__Number: '99.1.37'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -64,7 +64,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.39'
+      Version__Number: '99.1.37'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -736,12 +736,10 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: reports
       IdentityProvider__Authority: http://identityserver/identityserver
-      MessageBroker__Hostname: messagebroker
     image: loginvsi/reports:dev
     networks:
     - databases
     - front
-    - messaging
     restart: always
   reportsDb:
     deploy:
@@ -765,12 +763,10 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: reportschedules
       IdentityProvider__Authority: http://identityserver/identityserver
-      MessageBroker__Hostname: messagebroker
     image: loginvsi/reportschedules:dev
     networks:
     - databases
     - front
-    - messaging
     restart: always
   reportschedulesDb:
     deploy:
