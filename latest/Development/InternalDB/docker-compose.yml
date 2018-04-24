@@ -41,7 +41,7 @@ services:
       Hosting__VirtualDirectory: accountleasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.36'
+      Version__Number: '99.1.37'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -62,7 +62,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.36'
+      Version__Number: '99.1.37'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -277,47 +277,11 @@ services:
     - front
     restart: always
   gateway:
-    depends_on:
-    - accounts
-    - accountleasing
-    - appmonitors
-    - appmonitoringschedule
-    - appmonitorsources
-    - contentdelivery
-    - enginehub
-    - environmentconfiguration
-    - eventhub
-    - identityserver
-    - infrastructures
-    - launcherhub
-    - launcherleasing
-    - launchers
-    - logintimeactions
-    - logintimeevents
-    - measurementactions
-    - measurementevents
-    - messagebroker
-    - serverurls
-    - sessiondiscovery
-    - sessionloginresults
-    - sessionlogonscripts
-    - sessionmanagement
-    - sessionregulation
-    - sessionrequests
-    - notificationshub
-    - virtualuserresults
-    - accountsworker
-    - appmonitorscheduler
-    - enginehubworker
-    - launcherhubworker
-    - launcherregistryworker
-    - notificationsworker
-    - publishingworker
-    - sessiondiscoveryworker
-    - sessionmanagementworker
     deploy:
       restart_policy:
         condition: on-failure
+    environment:
+      START_DELAY: 20
     image: loginvsi/gateway_product:dev
     networks:
     - front
