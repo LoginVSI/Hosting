@@ -27,10 +27,10 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: accountleasing
+      Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.40'
+      Version__Number: '99.1.41'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -49,7 +49,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.40'
+      Version__Number: '99.1.41'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -84,7 +84,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: appmonitoringschedule
+      Hosting__VirtualDirectory: appMonitoringSchedule
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/appmonitoringschedule:dev
@@ -102,7 +102,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: appmonitors
+      Hosting__VirtualDirectory: appMonitors
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/appmonitors:dev
@@ -137,7 +137,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: appmonitorsources
+      Hosting__VirtualDirectory: appMonitorSources
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/appmonitorsources:dev
@@ -193,7 +193,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: environmentconfiguration
+      Hosting__VirtualDirectory: environmentConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/environmentconfiguration:dev
     networks:
@@ -310,7 +310,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: launcherleasing
+      Hosting__VirtualDirectory: launcherLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/launcherleasing:dev
@@ -382,7 +382,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: loginschedule
+      Hosting__VirtualDirectory: loginSchedule
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/loginschedule:dev
@@ -399,7 +399,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: logintimeactions
+      Hosting__VirtualDirectory: loginTimeActions
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/logintimeactions:dev
@@ -416,7 +416,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: logintimeevents
+      Hosting__VirtualDirectory: loginTimeEvents
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/logintimeevents:dev
@@ -433,7 +433,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: measurementactions
+      Hosting__VirtualDirectory: measurementActions
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/measurementactions:dev
@@ -470,7 +470,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: measurementevents
+      Hosting__VirtualDirectory: measurementEvents
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/measurementevents:dev
@@ -573,7 +573,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: reportschedules
+      Hosting__VirtualDirectory: reportSchedules
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/reportschedules:dev
@@ -624,7 +624,7 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Hosting__VirtualDirectory: serverurls
+      Hosting__VirtualDirectory: serverUrls
     image: loginvsi/serverurls:dev
     networks:
     - front
@@ -660,7 +660,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessiondiscovery
+      Hosting__VirtualDirectory: sessionDiscovery
       IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/sessiondiscovery:dev
     networks:
@@ -697,7 +697,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionleasing
+      Hosting__VirtualDirectory: sessionLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionleasing:dev
@@ -715,7 +715,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionloginresults
+      Hosting__VirtualDirectory: sessionLoginResults
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionloginresults:dev
@@ -732,7 +732,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionlogonscripts
+      Hosting__VirtualDirectory: sessionLogonScripts
       IdentityProvider__Authority: http://identityserver/identityserver
     image: loginvsi/sessionlogonscripts:dev
     networks:
@@ -748,7 +748,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionmanagement
+      Hosting__VirtualDirectory: sessionManagement
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionmanagement:dev
@@ -789,7 +789,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionregulation
+      Hosting__VirtualDirectory: sessionRegulation
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionregulation:dev
@@ -832,7 +832,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: sessionrequests
+      Hosting__VirtualDirectory: sessionRequests
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/sessionrequests:dev
@@ -905,7 +905,7 @@ services:
     environment:
       DB__ConnectionString: ${CONNECTION_STRING}
       DB__DbType: ${DB_TYPE}
-      Hosting__VirtualDirectory: virtualuserresults
+      Hosting__VirtualDirectory: virtualUserResults
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/virtualuserresults:dev
