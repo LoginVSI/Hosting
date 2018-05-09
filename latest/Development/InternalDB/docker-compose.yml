@@ -41,7 +41,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.45'
+      Version__Number: '99.1.46'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -62,7 +62,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.45'
+      Version__Number: '99.1.46'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -275,6 +275,34 @@ services:
     image: loginvsi/enginehub:dev
     networks:
     - front
+    restart: always
+  functionalEventsDb:
+    deploy:
+      restart_policy:
+        condition: on-failure
+    image: postgres:9
+    networks:
+    - databases
+    restart: always
+  functionalevents:
+    depends_on:
+    - functionalEventsDb
+    - identityserver
+    - messagebroker
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB__ConnectionString: Server=functionalEventsDb;Database=FunctionalEvents;Username=postgres;
+      DB__DbType: PostgreSQL
+      Hosting__VirtualDirectory: functionalEvents
+      IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
+    image: loginvsi/functionalevents:dev
+    networks:
+    - databases
+    - front
+    - messaging
     restart: always
   gateway:
     deploy:
