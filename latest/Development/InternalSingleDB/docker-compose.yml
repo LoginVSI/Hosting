@@ -33,7 +33,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.44'
+      Version__Number: '99.1.45'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -54,7 +54,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.44'
+      Version__Number: '99.1.45'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -378,6 +378,26 @@ services:
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
     image: loginvsi/launchers:dev
+    networks:
+    - databases
+    - front
+    - messaging
+    restart: always
+  licensing:
+    depends_on:
+    - allDbs
+    - identityserver
+    - messagebroker
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB__ConnectionString: Server=allDbs;Database=Licensing;Username=postgres;
+      DB__DbType: PostgreSQL
+      Hosting__VirtualDirectory: licensing
+      IdentityProvider__Authority: http://identityserver/identityserver
+      MessageBroker__Hostname: messagebroker
+    image: loginvsi/licensing:dev
     networks:
     - databases
     - front
