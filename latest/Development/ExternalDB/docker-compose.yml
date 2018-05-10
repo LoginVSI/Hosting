@@ -30,7 +30,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.46'
+      Version__Number: '99.1.47'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -49,7 +49,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.46'
+      Version__Number: '99.1.47'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -346,10 +346,10 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      IdentityProvider__Authority: http://identityserver
+      IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
+      Services__LauncherLeasingUrl: http://launcherleasing/launcherleasing
       Services__LaunchersUrl: http://launchers/launchers
-      Services__SessionRequestManagementUrl: http://launcherleasing/launcherleasing
     image: loginvsi/launcherregistryworker:dev
     networks:
     - front

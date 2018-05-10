@@ -1,23 +1,23 @@
 networks:
   databases:
-    driver: bridge
+    driver: overlay
   front:
-    driver: bridge
+    driver: overlay
   messaging:
-    driver: bridge
+    driver: overlay
 secrets:
   ADMIN_PASSWORD:
-    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+    external: true
   LAUNCHER_SECRET:
-    file: ${LAUNCHER_SECRET_PATH}
+    external: true
   USER_PASSWORD:
-    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+    external: true
   VSI_SSL_CERTIFICATE:
     file: ${SSL_CERTIFICATE_PATH}
   VSI_SSL_CERTIFICATE_KEY:
     file: ${SSL_CERTIFICATE_KEY_PATH}
   VSI_SSL_CERTIFICATE_KEY_PASSWORD:
-    file: ${SSL_CERTIFICATE_KEY_PASSWORD_PATH}
+    external: true
 services:
   accountLeasingDb:
     deploy:
@@ -27,8 +27,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - accountLeasingDb:/var/lib/postgresql/data
   accountleasing:
     depends_on:
     - accountLeasingDb
@@ -79,8 +77,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - accountsDb:/var/lib/postgresql/data
   accountsworker:
     depends_on:
     - accountleasing
@@ -108,8 +104,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - appMonitorSourcesDb:/var/lib/postgresql/data
   appMonitoringScheduleDb:
     deploy:
       restart_policy:
@@ -118,8 +112,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - appMonitoringScheduleDb:/var/lib/postgresql/data
   appMonitorsDb:
     deploy:
       restart_policy:
@@ -128,8 +120,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - appMonitorsDb:/var/lib/postgresql/data
   appmonitoringschedule:
     depends_on:
     - appMonitoringScheduleDb
@@ -227,8 +217,6 @@ services:
     image: loginvsi/enginehub:dev
     networks:
     - front
-    ports:
-    - 4000:80
     restart: always
   enginehubworker:
     depends_on:
@@ -256,8 +244,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - environmentConfigurationDb:/var/lib/postgresql/data
   environmentconfiguration:
     depends_on:
     - environmentConfigurationDb
@@ -296,8 +282,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - functionalEventsDb:/var/lib/postgresql/data
   functionalevents:
     depends_on:
     - functionalEventsDb
@@ -378,8 +362,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - infrastructuresDb:/var/lib/postgresql/data
   launcherLeasingDb:
     deploy:
       restart_policy:
@@ -388,8 +370,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - launcherLeasingDb:/var/lib/postgresql/data
   launcherhub:
     depends_on:
     - identityserver
@@ -404,8 +384,6 @@ services:
     networks:
     - front
     - messaging
-    ports:
-    - 4001:80
     restart: always
   launcherhubworker:
     depends_on:
@@ -497,8 +475,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - launchersDb:/var/lib/postgresql/data
   licensing:
     depends_on:
     - licensingDb
@@ -527,8 +503,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - licensingDb:/var/lib/postgresql/data
   loginScheduleDb:
     deploy:
       restart_policy:
@@ -537,8 +511,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - loginScheduleDb:/var/lib/postgresql/data
   loginmonitorscheduler:
     depends_on:
     - sessionrequests
@@ -603,8 +575,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - logintimeactionsDb:/var/lib/postgresql/data
   logintimeevents:
     depends_on:
     - logintimeeventsDb
@@ -632,8 +602,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - logintimeeventsDb:/var/lib/postgresql/data
   measurementactions:
     depends_on:
     - measurementactionsDb
@@ -661,8 +629,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - measurementactionsDb:/var/lib/postgresql/data
   measurementactionsworker:
     depends_on:
     - virtualuserresults
@@ -710,8 +676,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - measurementeventsDb:/var/lib/postgresql/data
   messagebroker:
     deploy:
       restart_policy:
@@ -720,12 +684,7 @@ services:
     image: rabbitmq:3.6.12-management
     networks:
     - messaging
-    ports:
-    - 5672:5672
-    - 15672:15672
     restart: always
-    volumes:
-    - ${DB_ROOT}/messagebroker:/var/lib/rabbitmq/mnesia
   notificationshub:
     depends_on:
     - identityserver
@@ -756,17 +715,6 @@ services:
     - front
     - messaging
     restart: always
-  portainer:
-    command: -d /data -H unix:///var/run/docker.sock --admin-password '$$2y$$05$$DTUYaqFuY0ot0BuUqKE4d.KyQmBzZiUe64rl6QLTYhS/9Nl000vK.'
-    deploy:
-      restart_policy:
-        condition: on-failure
-    image: portainer/portainer
-    ports:
-    - 9000:9000
-    restart: always
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
   publishingworker:
     depends_on:
     - appmonitors
@@ -813,8 +761,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - reportsDb:/var/lib/postgresql/data
   reportschedules:
     depends_on:
     - reportschedulesDb
@@ -842,8 +788,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - reportschedulesDb:/var/lib/postgresql/data
   reportsworker:
     depends_on:
     - reports
@@ -900,8 +844,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionDiscoveryDb:/var/lib/postgresql/data
   sessionLeasingDb:
     deploy:
       restart_policy:
@@ -910,8 +852,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionLeasingDb:/var/lib/postgresql/data
   sessionLoginResultsDb:
     deploy:
       restart_policy:
@@ -920,8 +860,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionLoginResultsDb:/var/lib/postgresql/data
   sessionLogonScriptsDb:
     deploy:
       restart_policy:
@@ -930,8 +868,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionLogonScriptsDb:/var/lib/postgresql/data
   sessionManagementDb:
     deploy:
       restart_policy:
@@ -940,8 +876,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionManagementDb:/var/lib/postgresql/data
   sessionRegulationDb:
     deploy:
       restart_policy:
@@ -950,8 +884,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionRegulationDb:/var/lib/postgresql/data
   sessionRequestsDb:
     deploy:
       restart_policy:
@@ -960,8 +892,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionRequestsDb:/var/lib/postgresql/data
   sessioncalculator:
     depends_on:
     - infrastructures
@@ -1250,8 +1180,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - virtualUserResultsDb:/var/lib/postgresql/data
   virtualuserresults:
     depends_on:
     - virtualUserResultsDb
@@ -1273,31 +1201,4 @@ services:
     - messaging
     restart: always
 version: "3.1"
-volumes:
-  accountLeasingDb:
-  accountsDb:
-  appMonitorSourcesDb:
-  appMonitoringScheduleDb:
-  appMonitorsDb:
-  environmentConfigurationDb:
-  functionalEventsDb:
-  infrastructuresDb:
-  launcherLeasingDb:
-  launchersDb:
-  licensingDb:
-  loginScheduleDb:
-  logintimeactionsDb:
-  logintimeeventsDb:
-  measurementactionsDb:
-  measurementeventsDb:
-  reportsDb:
-  reportschedulesDb:
-  sessionDiscoveryDb:
-  sessionLeasingDb:
-  sessionLoginResultsDb:
-  sessionLogonScriptsDb:
-  sessionManagementDb:
-  sessionRegulationDb:
-  sessionRequestsDb:
-  virtualUserResultsDb:
 
