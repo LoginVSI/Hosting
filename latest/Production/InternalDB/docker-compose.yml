@@ -41,7 +41,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.49'
+      Version__Number: '99.1.50'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -62,7 +62,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.49'
+      Version__Number: '99.1.50'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -387,9 +387,8 @@ services:
     restart: always
   launcherhubworker:
     depends_on:
-    - launchers
     - sessionmanagement
-    - sessionrequests
+    - launcherleasing
     - launcherhub
     - messagebroker
     - identityserver
@@ -1073,11 +1072,10 @@ services:
     restart: always
   sessionregulator:
     depends_on:
-    - sessionregulation
     - sessionmanagement
+    - sessionregulation
     - sessionrequests
-    - accounts
-    - infrastructures
+    - licensing
     - messagebroker
     - identityserver
     deploy:
@@ -1086,8 +1084,7 @@ services:
     environment:
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Services__AccountsUrl: http://accounts/accounts
-      Services__InfrastructuresUrl: http://infrastructures/infrastructures
+      Services__LicensingUrl: http://licensing/licensing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRegulationUrl: http://sessionregulation/sessionregulation
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
