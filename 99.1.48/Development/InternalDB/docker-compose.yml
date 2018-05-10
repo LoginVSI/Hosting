@@ -27,8 +27,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - accountLeasingDb:/var/lib/postgresql/data
   accountleasing:
     depends_on:
     - accountLeasingDb
@@ -79,8 +77,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - accountsDb:/var/lib/postgresql/data
   accountsworker:
     depends_on:
     - accountleasing
@@ -108,8 +104,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - appMonitorSourcesDb:/var/lib/postgresql/data
   appMonitoringScheduleDb:
     deploy:
       restart_policy:
@@ -118,8 +112,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - appMonitoringScheduleDb:/var/lib/postgresql/data
   appMonitorsDb:
     deploy:
       restart_policy:
@@ -128,8 +120,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - appMonitorsDb:/var/lib/postgresql/data
   appmonitoringschedule:
     depends_on:
     - appMonitoringScheduleDb
@@ -256,8 +246,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - environmentConfigurationDb:/var/lib/postgresql/data
   environmentconfiguration:
     depends_on:
     - environmentConfigurationDb
@@ -296,8 +284,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - functionalEventsDb:/var/lib/postgresql/data
   functionalevents:
     depends_on:
     - functionalEventsDb
@@ -378,8 +364,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - infrastructuresDb:/var/lib/postgresql/data
   launcherLeasingDb:
     deploy:
       restart_policy:
@@ -388,8 +372,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - launcherLeasingDb:/var/lib/postgresql/data
   launcherhub:
     depends_on:
     - identityserver
@@ -496,8 +478,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - launchersDb:/var/lib/postgresql/data
   licensing:
     depends_on:
     - licensingDb
@@ -526,8 +506,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - licensingDb:/var/lib/postgresql/data
   loginScheduleDb:
     deploy:
       restart_policy:
@@ -536,8 +514,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - loginScheduleDb:/var/lib/postgresql/data
   loginmonitorscheduler:
     depends_on:
     - sessionrequests
@@ -602,8 +578,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - logintimeactionsDb:/var/lib/postgresql/data
   logintimeevents:
     depends_on:
     - logintimeeventsDb
@@ -631,8 +605,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - logintimeeventsDb:/var/lib/postgresql/data
   measurementactions:
     depends_on:
     - measurementactionsDb
@@ -660,8 +632,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - measurementactionsDb:/var/lib/postgresql/data
   measurementactionsworker:
     depends_on:
     - virtualuserresults
@@ -709,8 +679,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - measurementeventsDb:/var/lib/postgresql/data
   messagebroker:
     deploy:
       restart_policy:
@@ -723,8 +691,6 @@ services:
     - 5672:5672
     - 15672:15672
     restart: always
-    volumes:
-    - ${DB_ROOT}/messagebroker:/var/lib/rabbitmq/mnesia
   notificationshub:
     depends_on:
     - identityserver
@@ -812,8 +778,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - reportsDb:/var/lib/postgresql/data
   reportschedules:
     depends_on:
     - reportschedulesDb
@@ -841,8 +805,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - reportschedulesDb:/var/lib/postgresql/data
   reportsworker:
     depends_on:
     - reports
@@ -899,8 +861,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionDiscoveryDb:/var/lib/postgresql/data
   sessionLeasingDb:
     deploy:
       restart_policy:
@@ -909,8 +869,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionLeasingDb:/var/lib/postgresql/data
   sessionLoginResultsDb:
     deploy:
       restart_policy:
@@ -919,8 +877,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionLoginResultsDb:/var/lib/postgresql/data
   sessionLogonScriptsDb:
     deploy:
       restart_policy:
@@ -929,8 +885,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionLogonScriptsDb:/var/lib/postgresql/data
   sessionManagementDb:
     deploy:
       restart_policy:
@@ -939,8 +893,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionManagementDb:/var/lib/postgresql/data
   sessionRegulationDb:
     deploy:
       restart_policy:
@@ -949,8 +901,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionRegulationDb:/var/lib/postgresql/data
   sessionRequestsDb:
     deploy:
       restart_policy:
@@ -959,8 +909,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - sessionRequestsDb:/var/lib/postgresql/data
   sessioncalculator:
     depends_on:
     - infrastructures
@@ -1249,8 +1197,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - virtualUserResultsDb:/var/lib/postgresql/data
   virtualuserresults:
     depends_on:
     - virtualUserResultsDb
@@ -1272,31 +1218,4 @@ services:
     - messaging
     restart: always
 version: "3.1"
-volumes:
-  accountLeasingDb:
-  accountsDb:
-  appMonitorSourcesDb:
-  appMonitoringScheduleDb:
-  appMonitorsDb:
-  environmentConfigurationDb:
-  functionalEventsDb:
-  infrastructuresDb:
-  launcherLeasingDb:
-  launchersDb:
-  licensingDb:
-  loginScheduleDb:
-  logintimeactionsDb:
-  logintimeeventsDb:
-  measurementactionsDb:
-  measurementeventsDb:
-  reportsDb:
-  reportschedulesDb:
-  sessionDiscoveryDb:
-  sessionLeasingDb:
-  sessionLoginResultsDb:
-  sessionLogonScriptsDb:
-  sessionManagementDb:
-  sessionRegulationDb:
-  sessionRequestsDb:
-  virtualUserResultsDb:
 

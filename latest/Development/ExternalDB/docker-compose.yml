@@ -30,7 +30,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.47'
+      Version__Number: '99.1.48'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -49,7 +49,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.47'
+      Version__Number: '99.1.48'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -310,9 +310,8 @@ services:
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
       Services__HubUrl: ws://launcherhub/launcherhub/websockets
-      Services__LauncherRegistryUrl: http://launchers/launchers
+      Services__LauncherLeasingUrl: http://launcherleasing/launcherleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
-      Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/launcherhubworker:dev
     networks:
     - front
