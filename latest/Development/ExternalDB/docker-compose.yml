@@ -30,7 +30,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.50'
+      Version__Number: '99.1.51'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -49,7 +49,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.50'
+      Version__Number: '99.1.51'
     image: loginvsi/accounts:dev
     networks:
     - front
@@ -112,7 +112,9 @@ services:
     restart: always
   appmonitorscheduler:
     depends_on:
+    - sessionleasing
     - appmonitoringschedule
+    - licensing
     - messagebroker
     - identityserver
     deploy:
@@ -122,6 +124,7 @@ services:
       IdentityProvider__Authority: http://identityserver/identityserver
       Polling__Interval: 10
       Services__AppMonitoringScheduleUrl: http://appmonitoringschedule/appmonitoringschedule
+      Services__LicensingUrl: http://licensing/licensing
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
     image: loginvsi/appmonitorscheduler:dev
     networks:
@@ -393,6 +396,7 @@ services:
     depends_on:
     - sessionrequests
     - loginschedule
+    - licensing
     - identityserver
     deploy:
       restart_policy:
@@ -400,6 +404,7 @@ services:
     environment:
       IdentityProvider__Authority: http://identityserver/identityserver
       Polling__Interval: 10
+      Services__LicensingUrl: http://licensing/licensing
       Services__LoginScheduleUrl: http://loginschedule/loginschedule
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
     image: loginvsi/loginmonitorscheduler:dev
