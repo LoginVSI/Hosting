@@ -1,10 +1,10 @@
 networks:
   databases:
-    driver: overlay
+    driver: bridge
   front:
-    driver: overlay
+    driver: bridge
   messaging:
-    driver: overlay
+    driver: bridge
 secrets:
   ADMIN_PASSWORD:
     external: true
@@ -27,8 +27,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/accountLeasingDb:/var/lib/postgresql/data
   accountleasing:
     depends_on:
     - accountLeasingDb
@@ -79,8 +77,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/accountsDb:/var/lib/postgresql/data
   accountsworker:
     depends_on:
     - accountleasing
@@ -108,8 +104,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitorSourcesDb:/var/lib/postgresql/data
   appMonitoringScheduleDb:
     deploy:
       restart_policy:
@@ -118,8 +112,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitoringScheduleDb:/var/lib/postgresql/data
   appMonitorsDb:
     deploy:
       restart_policy:
@@ -128,8 +120,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/appMonitorsDb:/var/lib/postgresql/data
   appmonitoringschedule:
     depends_on:
     - appMonitoringScheduleDb
@@ -257,8 +247,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/environmentConfigurationDb:/var/lib/postgresql/data
   environmentconfiguration:
     depends_on:
     - environmentConfigurationDb
@@ -297,8 +285,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/functionalEventsDb:/var/lib/postgresql/data
   functionalevents:
     depends_on:
     - functionalEventsDb
@@ -379,8 +365,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/infrastructuresDb:/var/lib/postgresql/data
   launcherLeasingDb:
     deploy:
       restart_policy:
@@ -389,8 +373,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/launcherLeasingDb:/var/lib/postgresql/data
   launcherhub:
     depends_on:
     - identityserver
@@ -494,8 +476,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/launchersDb:/var/lib/postgresql/data
   licensing:
     depends_on:
     - licensingDb
@@ -524,8 +504,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/licensingDb:/var/lib/postgresql/data
   loginScheduleDb:
     deploy:
       restart_policy:
@@ -534,8 +512,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/loginScheduleDb:/var/lib/postgresql/data
   loginmonitorscheduler:
     depends_on:
     - sessionrequests
@@ -602,8 +578,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/logintimeactionsDb:/var/lib/postgresql/data
   logintimeevents:
     depends_on:
     - logintimeeventsDb
@@ -631,8 +605,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/logintimeeventsDb:/var/lib/postgresql/data
   measurementactions:
     depends_on:
     - measurementactionsDb
@@ -660,8 +632,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/measurementactionsDb:/var/lib/postgresql/data
   measurementactionsworker:
     depends_on:
     - virtualuserresults
@@ -709,8 +679,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/measurementeventsDb:/var/lib/postgresql/data
   messagebroker:
     deploy:
       restart_policy:
@@ -720,8 +688,6 @@ services:
     networks:
     - messaging
     restart: always
-    volumes:
-    - ${DB_ROOT}/messagebroker:/var/lib/rabbitmq/mnesia
   notificationshub:
     depends_on:
     - identityserver
@@ -798,8 +764,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/reportsDb:/var/lib/postgresql/data
   reportschedules:
     depends_on:
     - reportschedulesDb
@@ -827,8 +791,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/reportschedulesDb:/var/lib/postgresql/data
   reportsworker:
     depends_on:
     - reports
@@ -885,8 +847,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionDiscoveryDb:/var/lib/postgresql/data
   sessionLeasingDb:
     deploy:
       restart_policy:
@@ -895,8 +855,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLeasingDb:/var/lib/postgresql/data
   sessionLoginResultsDb:
     deploy:
       restart_policy:
@@ -905,8 +863,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLoginResultsDb:/var/lib/postgresql/data
   sessionLogonScriptsDb:
     deploy:
       restart_policy:
@@ -915,8 +871,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionLogonScriptsDb:/var/lib/postgresql/data
   sessionManagementDb:
     deploy:
       restart_policy:
@@ -925,8 +879,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionManagementDb:/var/lib/postgresql/data
   sessionRegulationDb:
     deploy:
       restart_policy:
@@ -935,8 +887,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionRegulationDb:/var/lib/postgresql/data
   sessionRequestsDb:
     deploy:
       restart_policy:
@@ -945,8 +895,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/sessionRequestsDb:/var/lib/postgresql/data
   sessioncalculator:
     depends_on:
     - infrastructures
@@ -1247,8 +1195,6 @@ services:
     networks:
     - databases
     restart: always
-    volumes:
-    - ${DB_ROOT}/virtualUserResultsDb:/var/lib/postgresql/data
   virtualuserresults:
     depends_on:
     - virtualUserResultsDb

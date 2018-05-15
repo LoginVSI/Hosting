@@ -33,7 +33,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.51'
+      Version__Number: '99.1.52'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -54,7 +54,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.51'
+      Version__Number: '99.1.52'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -959,6 +959,20 @@ services:
     networks:
     - front
     - messaging
+    restart: always
+  systemconfiguration:
+    depends_on:
+    - identityserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      Hosting__VirtualDirectory: systemConfiguration
+      IdentityProvider__Authority: http://identityserver/identityserver
+      SystemConfiguration__AllowUntrustedCertificates: "false"
+    image: loginvsi/systemconfiguration:dev
+    networks:
+    - front
     restart: always
   timeoutworker:
     depends_on:
