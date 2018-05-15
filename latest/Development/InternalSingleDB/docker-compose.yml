@@ -33,7 +33,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.53'
+      Version__Number: '99.1.54'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -54,7 +54,7 @@ services:
       Hosting__VirtualDirectory: accounts
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.53'
+      Version__Number: '99.1.54'
     image: loginvsi/accounts:dev
     networks:
     - databases
@@ -826,6 +826,7 @@ services:
       DB__DbType: PostgreSQL
       Hosting__VirtualDirectory: sessionLogonScripts
       IdentityProvider__Authority: http://identityserver/identityserver
+      SystemConfiguration__AllowUntrustedCertificates: "true"
     image: loginvsi/sessionlogonscripts:dev
     networks:
     - databases
