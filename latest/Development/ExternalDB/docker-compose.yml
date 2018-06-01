@@ -30,7 +30,7 @@ services:
       Retry__ConnectDelay: 25
       Retry__MaxAttempts: 50
       Retry__RetryDelay: 10
-      Version__Number: '0.2.42'
+      Version__Number: '0.2.43'
     image: loginvsi/accounts:wait
     networks:
     - front
