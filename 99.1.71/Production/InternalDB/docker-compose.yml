@@ -1,14 +1,12 @@
 networks:
   databases:
-    driver: bridge
+    driver: overlay
   front:
-    driver: bridge
+    driver: overlay
   messaging:
-    driver: bridge
+    driver: overlay
 secrets:
   ADMIN_PASSWORD:
-    external: true
-  ENGINE_SECRET:
     external: true
   LAUNCHER_SECRET:
     external: true
@@ -43,7 +41,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.72'
+      Version__Number: '99.1.71'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -215,9 +213,6 @@ services:
     networks:
     - front
     restart: always
-    secrets:
-    - LAUNCHER_SECRET
-    - ENGINE_SECRET
   enginehub:
     depends_on:
     - identityserver
@@ -387,7 +382,6 @@ services:
     - ADMIN_PASSWORD
     - USER_PASSWORD
     - LAUNCHER_SECRET
-    - ENGINE_SECRET
   infrastructures:
     depends_on:
     - infrastructuresDb
@@ -1228,7 +1222,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '99.1.72'
+      Version__Number: '99.1.71'
     image: loginvsi/systemconfiguration:dev
     networks:
     - front
