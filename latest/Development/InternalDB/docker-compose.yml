@@ -43,7 +43,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.46'
+      Version__Number: '0.2.47'
     image: loginvsi/accountleasing:1.0.0
     networks:
     - databases
@@ -211,7 +211,7 @@ services:
       ClientSecrets__Launcher: 39Q3R54C4PI0Y17ZA45B55PCFPA9PMW4OKILLK1D
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       IdentityProvider__Authority: http://identityserver/identityserver
-    image: loginvsi/contentdelivery:1.0.0
+    image: loginvsi/contentdelivery:1.0.1
     networks:
     - front
     restart: always
@@ -1242,7 +1242,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '0.2.46'
+      Version__Number: '0.2.47'
     image: loginvsi/systemconfiguration:1.0.0
     networks:
     - front
@@ -1275,7 +1275,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/ui_loginpi:1.0.0
+    image: loginvsi/ui_loginpi:1.0.1
     networks:
     - front
     restart: always
