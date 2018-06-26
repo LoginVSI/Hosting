@@ -45,7 +45,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.54'
+      Version__Number: '0.2.55'
     image: loginvsi/accountleasing:1.0.0
     networks:
     - databases
@@ -221,7 +221,7 @@ services:
       ClientSecrets__Launcher: 39Q3R54C4PI0Y17ZA45B55PCFPA9PMW4OKILLK1D
       Hosting__HostUrls: ${ALLOWED_CLIENT_URLS}
       IdentityProvider__Authority: http://identityserver/identityserver
-    image: loginvsi/contentdelivery:1.0.8
+    image: loginvsi/contentdelivery:1.0.9
     networks:
     - front
     restart: always
@@ -1179,7 +1179,7 @@ services:
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
-    image: loginvsi/sessionmanagementworker:1.0.1
+    image: loginvsi/sessionmanagementworker:1.0.2
     networks:
     - front
     - messaging
@@ -1280,7 +1280,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '0.2.54'
+      Version__Number: '0.2.55'
     image: loginvsi/systemconfiguration:1.0.0
     networks:
     - front
@@ -1305,7 +1305,7 @@ services:
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
-    image: loginvsi/timeoutworker:1.0.0
+    image: loginvsi/timeoutworker:1.0.1
     networks:
     - front
     restart: always
@@ -1313,7 +1313,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/ui_loginpi:1.0.1
+    image: loginvsi/ui_loginpi:1.0.2
     networks:
     - front
     restart: always
