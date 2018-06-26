@@ -45,7 +45,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.77'
+      Version__Number: '99.1.78'
     image: loginvsi/accountleasing:dev
     networks:
     - databases
@@ -1280,7 +1280,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '99.1.77'
+      Version__Number: '99.1.78'
     image: loginvsi/systemconfiguration:dev
     networks:
     - front
