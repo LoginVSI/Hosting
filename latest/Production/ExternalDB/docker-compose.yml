@@ -32,7 +32,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '99.1.78'
+      Version__Number: '99.1.79'
     image: loginvsi/accountleasing:dev
     networks:
     - front
@@ -694,7 +694,7 @@ services:
     environment:
       IdentityProvider__Authority: http://identityserver/identityServer
       MessageBroker__Hostname: messagebroker
-      Polling__Interval: 60
+      Polling__Interval: 1500
       Services__InfrastructuresUrl: http://infrastructures
       Services__ReportSchedulesUrl: http://reportschedules/reportschedules
       Services__ReportsUrl: http://reports/reports
@@ -976,7 +976,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '99.1.78'
+      Version__Number: '99.1.79'
     image: loginvsi/systemconfiguration:dev
     networks:
     - front
