@@ -45,7 +45,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.57'
+      Version__Number: '0.2.58'
     image: loginvsi/accountleasing:1.0.0
     networks:
     - databases
@@ -183,7 +183,7 @@ services:
         condition: on-failure
     environment:
       IdentityProvider__Authority: http://identityserver/identityserver
-      Polling__Interval: 10
+      Polling__Interval: 30
       Services__AppMonitoringScheduleUrl: http://appmonitoringschedule/appmonitoringschedule
       Services__LicensingUrl: http://licensing/licensing
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
@@ -616,7 +616,7 @@ services:
         condition: on-failure
     environment:
       IdentityProvider__Authority: http://identityserver/identityserver
-      Polling__Interval: 10
+      Polling__Interval: 30
       Services__LicensingUrl: http://licensing/licensing
       Services__LoginScheduleUrl: http://loginschedule/loginschedule
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
@@ -1031,7 +1031,7 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      Calculator__ScriptDurationInSeconds: 20
+      Calculator__ScriptDurationInSeconds: 10
       Calculator__SessionTargetCountBuffer: 2
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
@@ -1153,7 +1153,7 @@ services:
       Hosting__VirtualDirectory: sessionManagement
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionmanagement:1.0.0
+    image: loginvsi/sessionmanagement:1.0.1
     networks:
     - databases
     - front
@@ -1179,7 +1179,7 @@ services:
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
-    image: loginvsi/sessionmanagementworker:1.0.2
+    image: loginvsi/sessionmanagementworker:1.0.5
     networks:
     - front
     - messaging
@@ -1280,7 +1280,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '0.2.57'
+      Version__Number: '0.2.58'
     image: loginvsi/systemconfiguration:1.0.0
     networks:
     - front
@@ -1305,7 +1305,7 @@ services:
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
-    image: loginvsi/timeoutworker:1.0.1
+    image: loginvsi/timeoutworker:1.0.4
     networks:
     - front
     restart: always
@@ -1313,7 +1313,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/ui_loginpi:1.0.2
+    image: loginvsi/ui_loginpi:1.0.3
     networks:
     - front
     restart: always
