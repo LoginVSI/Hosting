@@ -32,7 +32,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.59'
+      Version__Number: '0.2.60'
     image: loginvsi/accountleasing:1.0.0
     networks:
     - front
@@ -278,7 +278,7 @@ services:
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
       Services__VirtualUserResultsUrl: http://virtualuserresults/virtualuserresults
-    image: loginvsi/functionaleventsworker:1.0.0
+    image: loginvsi/functionaleventsworker:1.0.1
     networks:
     - front
     - messaging
@@ -763,7 +763,7 @@ services:
       DB__DbType: ${DB_TYPE}
       Hosting__VirtualDirectory: sessionDiscovery
       IdentityProvider__Authority: http://identityserver/identityserver
-    image: loginvsi/sessiondiscovery:1.0.0
+    image: loginvsi/sessiondiscovery:1.0.1
     networks:
     - front
     restart: always
@@ -976,7 +976,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '0.2.59'
+      Version__Number: '0.2.60'
     image: loginvsi/systemconfiguration:1.0.0
     networks:
     - front
@@ -1001,7 +1001,7 @@ services:
       Services__SessionLeasingUrl: http://sessionleasing/sessionleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
-    image: loginvsi/timeoutworker:1.0.4
+    image: loginvsi/timeoutworker:1.0.5
     networks:
     - front
     restart: always
@@ -1009,7 +1009,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    image: loginvsi/ui_loginpi:1.0.3
+    image: loginvsi/ui_loginpi:1.0.4
     networks:
     - front
     restart: always
