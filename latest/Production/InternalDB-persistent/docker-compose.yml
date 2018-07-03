@@ -45,7 +45,7 @@ services:
       Hosting__VirtualDirectory: accountLeasing
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-      Version__Number: '0.2.61'
+      Version__Number: '0.2.62'
     image: loginvsi/accountleasing:1.0.0
     networks:
     - databases
@@ -1241,7 +1241,7 @@ services:
       Hosting__VirtualDirectory: sessionRequests
       IdentityProvider__Authority: http://identityserver/identityserver
       MessageBroker__Hostname: messagebroker
-    image: loginvsi/sessionrequests:1.0.0
+    image: loginvsi/sessionrequests:1.0.1
     networks:
     - databases
     - front
@@ -1265,7 +1265,7 @@ services:
       Services__LauncherLeasingUrl: http://launcherleasing/launcherleasing
       Services__SessionManagementUrl: http://sessionmanagement/sessionmanagement
       Services__SessionRequestsUrl: http://sessionrequests/sessionrequests
-    image: loginvsi/sessionrequestworker:1.0.0
+    image: loginvsi/sessionrequestworker:1.0.1
     networks:
     - front
     - messaging
@@ -1280,7 +1280,7 @@ services:
       Hosting__VirtualDirectory: systemConfiguration
       IdentityProvider__Authority: http://identityserver/identityserver
       SystemConfiguration__AllowUntrustedCertificates: "true"
-      Version__Number: '0.2.61'
+      Version__Number: '0.2.62'
     image: loginvsi/systemconfiguration:1.0.0
     networks:
     - front
